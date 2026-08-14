@@ -421,8 +421,13 @@
 
         function openModal(p) {
             _modalProduct = p
-            document.getElementById('modal-img').src = p.image
-            document.getElementById('modal-img').onerror = function () { this.src = 'https://via.placeholder.com/400x360?text=No+Image' }
+            const modalImg = document.getElementById('modal-img')
+            modalImg.setAttribute('referrerpolicy', 'no-referrer')
+            modalImg.src = p.image
+            modalImg.onerror = function () {
+                this.onerror = null
+                this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='360' viewBox='0 0 400 360'><rect width='400' height='360' fill='%231e293b'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-family='sans-serif' font-size='18'>" + encodeURIComponent(p.name) + "</text></svg>"
+            }
             document.getElementById('modal-cat').textContent = p.category
             document.getElementById('modal-name').textContent = p.name
             document.getElementById('modal-stars').innerHTML = renderStars(p.rating) + ' <small style="color:#888">(' + p.numReviews + ' reviews)</small>'
@@ -441,13 +446,13 @@
                 ? '<span style="color:var(--success)">✅ In Stock (' + p.stock + ' available)</span>'
                 : '<span style="color:var(--danger)">❌ Out of Stock</span>'
             document.getElementById('modal-cart-btn').disabled = p.stock === 0
-            document.getElementById('product-modal').style.display = 'block'
+            document.getElementById('product-modal').classList.add('open')
             document.body.style.overflow = 'hidden'
             history.replaceState(null, '', '/shop?id=' + p._id)
         }
 
         function closeModal() {
-            document.getElementById('product-modal').style.display = 'none'
+            document.getElementById('product-modal').classList.remove('open')
             document.body.style.overflow = ''
             history.replaceState(null, '', '/shop')
         }
@@ -460,23 +465,35 @@
             if (_modalProduct) Cart.add(_modalProduct)
         }
 
+        async function seedDatabase(btn) {
+            if (btn) { btn.disabled = true; btn.textContent = '⏳ Seeding Products...' }
+            try {
+                const res = await API.get('/products/seed')
+                showToast(res.message || '✅ Products seeded successfully!', 'success')
+                setTimeout(() => window.location.reload(), 1000)
+            } catch (err) {
+                showToast('Error seeding products: ' + err.message, 'error')
+                if (btn) { btn.disabled = false; btn.textContent = '🌱 Seed Sample Products' }
+            }
+        }
+
         async function loadProducts(page) {
             page = page || 1
             currentPage = page
-            const search = document.getElementById('search-q').value
-            const sort = document.getElementById('sort-select').value
-            const cats = Array.from(document.querySelectorAll('.filter-group input:checked')).map(function (i) { return i.value })
-            const minP = document.getElementById('min-price').value
-            const maxP = document.getElementById('max-price').value
-
-            let url = '/products?page=' + page + '&limit=9'
-            if (search) url += '&search=' + encodeURIComponent(search)
-            if (sort) url += '&sort=' + sort
-            if (cats.length === 1) url += '&category=' + cats[0]
-
-            document.getElementById('products-container').innerHTML = '<div class="loader"><div class="spinner"></div></div>'
+            const container = document.getElementById('products-container')
+            container.innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Loading products...</p>'
 
             try {
+                const search = document.getElementById('search-input').value.trim()
+                const sort = document.getElementById('sort-select').value
+                const cats = Array.from(document.querySelectorAll('.filter-category:checked')).map(function (c) { return c.value })
+                const minP = document.getElementById('min-price').value
+                const maxP = document.getElementById('max-price').value
+
+                let url = '/products?page=' + page + '&limit=9'
+                if (search) url += '&search=' + encodeURIComponent(search)
+                if (sort) url += '&sort=' + sort
+
                 const data = await API.get(url)
                 let products = data.products || []
 
@@ -487,7 +504,7 @@
                 document.getElementById('results-info').textContent = 'Showing ' + products.length + ' of ' + data.total + ' products'
 
                 if (!products.length) {
-                    document.getElementById('products-container').innerHTML = '<div class="no-products" style="grid-column:1/-1"><div class="icon">🔍</div><h3>No products found</h3><p>Try different filters or <a href="/api/products/seed" style="color:var(--primary)">seed sample products</a></p></div>'
+                    document.getElementById('products-container').innerHTML = '<div class="no-products" style="grid-column:1/-1"><div class="icon">🔍</div><h3>No products found</h3><p style="margin-bottom:15px">Try different filters or click below to populate the catalog:</p><button class="btn btn-primary btn-sm" onclick="seedDatabase(this)">🌱 Seed Sample Products</button></div>'
                     document.getElementById('pagination').innerHTML = ''
                     return
                 }
@@ -495,9 +512,10 @@
                 document.getElementById('products-container').innerHTML = products.map(function (p) {
                     const disc = p.originalPrice ? calcDiscount(p.price, p.originalPrice) : 0
                     const pJson = JSON.stringify(p).replace(/'/g, '&#39;')
+                    const svgFallback = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220'><rect width='300' height='220' fill='%231e293b'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-family='sans-serif' font-size='14'>" + encodeURIComponent(p.name) + "</text></svg>"
                     return '<div class="product-card">' +
                         (disc ? '<span class="badge">-' + disc + '%</span>' : '') +
-                        '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.src=\'https://via.placeholder.com/300x220?text=No+Image\'" style="cursor:pointer" onclick="openModal(' + pJson + ')">' +
+                        '<img src="' + p.image + '" alt="' + p.name + '" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'' + svgFallback + '\'" style="cursor:pointer" onclick="openModal(' + pJson + ')">' +
                         '<div class="card-body">' +
                         '<span style="font-size:12px;background:#e8f0fe;color:var(--primary);padding:3px 10px;border-radius:20px">' + p.category + '</span>' +
                         '<h3 style="margin-top:10px">' + p.name + '</h3>' +

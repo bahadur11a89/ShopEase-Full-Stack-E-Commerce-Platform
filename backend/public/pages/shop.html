@@ -1,281 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShopEase | Shop</title>
-<link rel="stylesheet" href="/css/style.css">
-<style>
-.shop-layout { width: 90%; margin: 40px auto; display: grid; grid-template-columns: 260px 1fr; gap: 30px; }
-.sidebar { background: #fff; border-radius: 12px; padding: 25px; box-shadow: var(--shadow); height: fit-content; position: sticky; top: 90px; }
-.sidebar h3 { font-size: 16px; font-weight: 700; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: var(--primary); }
-.filter-group { margin-bottom: 25px; }
-.filter-group label { display: flex; align-items: center; gap: 8px; padding: 8px 0; cursor: pointer; font-size: 14px; color: #444; transition: .2s; }
-.filter-group label:hover { color: var(--primary); }
-.filter-group input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--primary); }
-.price-range { display: flex; gap: 10px; align-items: center; }
-.price-range input { width: 90px; padding: 8px; border: 1.5px solid #ddd; border-radius: 6px; font-size: 13px; }
-.shop-main {}
-.shop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
-.shop-header h2 { font-size: 22px; }
-.shop-header select { padding: 10px 15px; border: 1.5px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
-.results-info { color: var(--secondary); font-size: 14px; }
-.pagination { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
-.pagination button { padding: 10px 16px; border: 1.5px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; font-size: 14px; transition: .3s; }
-.pagination button:hover, .pagination button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-.no-products { text-align: center; padding: 80px 20px; color: var(--secondary); }
-.no-products .icon { font-size: 60px; margin-bottom: 20px; }
-/* Modal */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 9999; overflow-y: auto; padding: 20px; }
-.modal-box { background: #fff; border-radius: 16px; max-width: 820px; margin: 40px auto; padding: 35px; position: relative; }
-.modal-close { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 28px; cursor: pointer; color: #888; line-height: 1; }
-.modal-close:hover { color: #333; }
-.modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-.modal-img { width: 100%; border-radius: 12px; object-fit: cover; max-height: 360px; }
-.modal-cat { font-size: 12px; background: #e8f0fe; color: var(--primary); padding: 3px 12px; border-radius: 20px; }
-.modal-name { font-size: 22px; font-weight: 700; margin: 12px 0 8px; }
-.modal-price { font-size: 28px; font-weight: 800; color: var(--primary); }
-.modal-orig { font-size: 16px; color: #999; text-decoration: line-through; margin-left: 10px; }
-.modal-disc { font-size: 13px; background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 10px; margin-left: 8px; }
-.modal-desc { color: #555; line-height: 1.7; font-size: 14px; margin: 12px 0 15px; }
-@media(max-width: 768px) { .shop-layout { grid-template-columns: 1fr; } .sidebar { position: static; } .modal-grid { grid-template-columns: 1fr; } }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase | Shop</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .shop-layout {
+            width: 90%;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 30px;
+        }
+
+        .sidebar {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .sidebar h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            color: var(--primary);
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+        }
+
+        .filter-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: #444;
+            transition: .2s;
+        }
+
+        .filter-group label:hover {
+            color: var(--primary);
+        }
+
+        .filter-group input[type=checkbox] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+
+        .price-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .price-range input {
+            width: 90px;
+            padding: 8px;
+            border: 1.5px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .shop-main {}
+
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .shop-header h2 {
+            font-size: 22px;
+        }
+
+        .shop-header select {
+            padding: 10px 15px;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .results-info {
+            color: var(--secondary);
+            font-size: 14px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+
+        .pagination button {
+            padding: 10px 16px;
+            border: 1.5px solid #ddd;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: .3s;
+        }
+
+        .pagination button:hover,
+        .pagination button.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .no-products {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--secondary);
+        }
+
+        .no-products .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 820px;
+            margin: 40px auto;
+            padding: 35px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .modal-img {
+            width: 100%;
+            border-radius: 12px;
+            object-fit: cover;
+            max-height: 360px;
+        }
+
+        .modal-cat {
+            font-size: 12px;
+            background: #e8f0fe;
+            color: var(--primary);
+            padding: 3px 12px;
+            border-radius: 20px;
+        }
+
+        .modal-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 12px 0 8px;
+        }
+
+        .modal-price {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .modal-orig {
+            font-size: 16px;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .modal-disc {
+            font-size: 13px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+        }
+
+        .modal-desc {
+            color: #555;
+            line-height: 1.7;
+            font-size: 14px;
+            margin: 12px 0 15px;
+        }
+
+        .filter-toggle-btn {
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        @media(max-width: 768px) {
+            .shop-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-toggle-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .sidebar {
+                display: none;
+                position: static;
+                margin-bottom: 20px;
+            }
+
+            .sidebar.open {
+                display: block;
+            }
+
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-box {
+                padding: 20px;
+                margin: 20px auto;
+                max-width: 95%;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<header>
-<nav>
-    <a href="/" class="logo">Shop<span>Ease</span></a>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/shop" class="active">Shop</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/services">Services</a></li>
-        <li><a href="/gallery">Gallery</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/cart" style="position:relative">🛒 Cart <span class="cart-count" id="cart-count" style="display:none">0</span></a></li>
-        <li id="nav-login"><a href="/login" class="nav-btn">Login</a></li>
-        <li id="nav-user" style="display:none"></li>
-    </ul>
-</nav>
-</header>
+    <header>
+        <nav>
+            <a href="/" class="logo">Shop<span>Ease</span></a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/shop" class="active">Shop</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/gallery">Gallery</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/cart" class="cart-icon">🛒 Cart <span class="cart-count" id="cart-count"
+                            style="display:none">0</span></a></li>
+                <li id="nav-login"><a href="/login" class="nav-btn">Login</a></li>
+                <li id="nav-user" style="display:none"></li>
+            </ul>
+        </nav>
+    </header>
 
-<div class="breadcrumb"><div class="breadcrumb-inner"><a href="/">Home</a> › Shop</div></div>
+    <div class="breadcrumb">
+        <div class="breadcrumb-inner"><a href="/">Home</a> › Shop</div>
+    </div>
 
-<!-- Product Detail Modal -->
-<div class="modal-overlay" id="product-modal" onclick="handleOverlayClick(event)">
-    <div class="modal-box">
-        <button class="modal-close" onclick="closeModal()">✕</button>
-        <div class="modal-grid">
-            <div>
-                <img class="modal-img" id="modal-img" src="" alt="">
-            </div>
-            <div>
-                <span class="modal-cat" id="modal-cat"></span>
-                <h2 class="modal-name" id="modal-name"></h2>
-                <div id="modal-stars" style="margin-bottom:10px"></div>
-                <div style="margin-bottom:14px">
-                    <span class="modal-price" id="modal-price"></span>
-                    <span class="modal-orig" id="modal-orig"></span>
-                    <span class="modal-disc" id="modal-disc"></span>
+    <!-- Product Detail Modal -->
+    <div class="modal-overlay" id="product-modal" onclick="handleOverlayClick(event)">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-grid">
+                <div>
+                    <img class="modal-img" id="modal-img" src="" alt="">
                 </div>
-                <p class="modal-desc" id="modal-desc"></p>
-                <p id="modal-stock" style="font-size:14px;margin-bottom:20px"></p>
-                <button id="modal-cart-btn" class="btn btn-primary" style="width:100%;padding:14px;font-size:16px" onclick="modalAddToCart()">🛒 Add to Cart</button>
+                <div>
+                    <span class="modal-cat" id="modal-cat"></span>
+                    <h2 class="modal-name" id="modal-name"></h2>
+                    <div id="modal-stars" style="margin-bottom:10px"></div>
+                    <div style="margin-bottom:14px">
+                        <span class="modal-price" id="modal-price"></span>
+                        <span class="modal-orig" id="modal-orig"></span>
+                        <span class="modal-disc" id="modal-disc"></span>
+                    </div>
+                    <p class="modal-desc" id="modal-desc"></p>
+                    <p id="modal-stock" style="font-size:14px;margin-bottom:20px"></p>
+                    <button id="modal-cart-btn" class="btn btn-primary" style="width:100%;padding:14px;font-size:16px"
+                        onclick="modalAddToCart()">🛒 Add to Cart</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="shop-layout">
-    <!-- Sidebar Filters -->
-    <aside class="sidebar">
-        <h3>🔍 Filters</h3>
-        <div class="filter-group">
-            <h3>Category</h3>
-            <label><input type="checkbox" value="Electronics" onchange="applyFilters()"> 📱 Electronics</label>
-            <label><input type="checkbox" value="Fashion" onchange="applyFilters()"> 👗 Fashion</label>
-            <label><input type="checkbox" value="Footwear" onchange="applyFilters()"> 👟 Footwear</label>
-            <label><input type="checkbox" value="Accessories" onchange="applyFilters()"> 👜 Accessories</label>
-            <label><input type="checkbox" value="Home" onchange="applyFilters()"> 🏠 Home</label>
-            <label><input type="checkbox" value="Beauty" onchange="applyFilters()"> 💄 Beauty</label>
-            <label><input type="checkbox" value="Sports" onchange="applyFilters()"> ⚽ Sports</label>
-        </div>
-        <div class="filter-group">
-            <h3>Price Range</h3>
-            <div class="price-range">
-                <input type="number" id="min-price" placeholder="Min ₹" onchange="applyFilters()">
-                <span>—</span>
-                <input type="number" id="max-price" placeholder="Max ₹" onchange="applyFilters()">
+    <div class="shop-layout">
+        <button class="filter-toggle-btn btn btn-outline btn-sm btn-block" onclick="toggleSidebarFilter()">🔍 Filter
+            Products ▾</button>
+        <!-- Sidebar Filters -->
+        <aside class="sidebar">
+            <h3>🔍 Filters</h3>
+            <div class="filter-group">
+                <h3>Category</h3>
+                <label><input type="checkbox" value="Electronics" onchange="applyFilters()"> 📱 Electronics</label>
+                <label><input type="checkbox" value="Fashion" onchange="applyFilters()"> 👗 Fashion</label>
+                <label><input type="checkbox" value="Footwear" onchange="applyFilters()"> 👟 Footwear</label>
+                <label><input type="checkbox" value="Accessories" onchange="applyFilters()"> 👜 Accessories</label>
+                <label><input type="checkbox" value="Home" onchange="applyFilters()"> 🏠 Home</label>
+                <label><input type="checkbox" value="Beauty" onchange="applyFilters()"> 💄 Beauty</label>
+                <label><input type="checkbox" value="Sports" onchange="applyFilters()"> ⚽ Sports</label>
             </div>
-        </div>
-        <button class="btn btn-outline btn-sm btn-block" onclick="clearFilters()" style="margin-top:10px">Clear Filters</button>
-    </aside>
+            <div class="filter-group">
+                <h3>Price Range</h3>
+                <div class="price-range">
+                    <input type="number" id="min-price" placeholder="Min ₹" onchange="applyFilters()">
+                    <span>—</span>
+                    <input type="number" id="max-price" placeholder="Max ₹" onchange="applyFilters()">
+                </div>
+            </div>
+            <button class="btn btn-outline btn-sm btn-block" onclick="clearFilters()" style="margin-top:10px">Clear
+                Filters</button>
+        </aside>
 
-    <!-- Products -->
-    <div class="shop-main">
-        <div class="shop-header">
-            <div>
-                <h2>All Products</h2>
-                <p class="results-info" id="results-info"></p>
+        <!-- Products -->
+        <div class="shop-main">
+            <div class="shop-header">
+                <div>
+                    <h2>All Products</h2>
+                    <p class="results-info" id="results-info"></p>
+                </div>
+                <div style="display:flex;gap:10px;align-items:center">
+                    <input type="text" id="search-q" placeholder="Search products..."
+                        style="padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:14px;outline:none;width:200px"
+                        oninput="applyFilters()">
+                    <select id="sort-select" onchange="applyFilters()">
+                        <option value="">Sort: Latest</option>
+                        <option value="price_asc">Price: Low to High</option>
+                        <option value="price_desc">Price: High to Low</option>
+                        <option value="rating">Top Rated</option>
+                    </select>
+                </div>
             </div>
-            <div style="display:flex;gap:10px;align-items:center">
-                <input type="text" id="search-q" placeholder="Search products..." style="padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:14px;outline:none;width:200px" oninput="applyFilters()">
-                <select id="sort-select" onchange="applyFilters()">
-                    <option value="">Sort: Latest</option>
-                    <option value="price_asc">Price: Low to High</option>
-                    <option value="price_desc">Price: High to Low</option>
-                    <option value="rating">Top Rated</option>
-                </select>
+            <div class="products-grid" id="products-container">
+                <div class="loader">
+                    <div class="spinner"></div>
+                </div>
             </div>
+            <div class="pagination" id="pagination"></div>
         </div>
-        <div class="products-grid" id="products-container">
-            <div class="loader"><div class="spinner"></div></div>
-        </div>
-        <div class="pagination" id="pagination"></div>
     </div>
-</div>
 
-<footer>
-    <div class="footer-bottom"><p>© 2026 ShopEase. All Rights Reserved.</p></div>
-</footer>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-col">
+                <h4>ShopEase</h4>
+                <p>India's most trusted online shopping destination. Quality products, best prices, fast delivery.</p>
+                <div class="social-links">
+                    <a href="https://github.com/bahadur11a89" target="_blank" title="GitHub" class="github"><i
+                            class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/raj-bahadur11" target="_blank" title="LinkedIn"
+                        class="linkedin"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://youtube.com/@bahadur11a89" target="_blank" title="YouTube" class="youtube"><i
+                            class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="/">Home</a><a href="/shop">Shop</a><a href="/about">About Us</a>
+                <a href="/services">Services</a><a href="/contact">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <a href="/shop?category=Electronics">Electronics</a>
+                <a href="/shop?category=Fashion">Fashion</a>
+                <a href="/shop?category=Footwear">Footwear</a>
+                <a href="/shop?category=Accessories">Accessories</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p>📍 Lucknow, Uttar Pradesh, India</p>
+                <p>📞 +91 9648388196</p>
+                <p>📧 bahadur11a89@gmail.com</p>
+                <p>🕐 Mon-Sat: 9AM - 6PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 ShopEase. All Rights Reserved. | Made with ❤️ in India</p>
+        </div>
+    </footer>
 
-<div id="toast" class="toast"></div>
-<script src="/js/app.js"></script>
-<script>
-let currentPage = 1
-let _modalProduct = null
+    <div id="toast" class="toast"></div>
+    <script src="/js/app.js"></script>
+    <script>
+        let currentPage = 1
+        let _modalProduct = null
 
-function openModal(p) {
-    _modalProduct = p
-    document.getElementById('modal-img').src = p.image
-    document.getElementById('modal-img').onerror = function() { this.src = 'https://via.placeholder.com/400x360?text=No+Image' }
-    document.getElementById('modal-cat').textContent = p.category
-    document.getElementById('modal-name').textContent = p.name
-    document.getElementById('modal-stars').innerHTML = renderStars(p.rating) + ' <small style="color:#888">(' + p.numReviews + ' reviews)</small>'
-    document.getElementById('modal-price').textContent = '₹' + p.price.toLocaleString()
-    const orig = document.getElementById('modal-orig')
-    const disc = document.getElementById('modal-disc')
-    if (p.originalPrice) {
-        orig.textContent = '₹' + p.originalPrice.toLocaleString()
-        disc.textContent = '-' + calcDiscount(p.price, p.originalPrice) + '% OFF'
-    } else {
-        orig.textContent = ''
-        disc.textContent = ''
-    }
-    document.getElementById('modal-desc').textContent = p.description
-    document.getElementById('modal-stock').innerHTML = p.stock > 0
-        ? '<span style="color:var(--success)">✅ In Stock (' + p.stock + ' available)</span>'
-        : '<span style="color:var(--danger)">❌ Out of Stock</span>'
-    document.getElementById('modal-cart-btn').disabled = p.stock === 0
-    document.getElementById('product-modal').style.display = 'block'
-    document.body.style.overflow = 'hidden'
-    history.replaceState(null, '', '/shop?id=' + p._id)
-}
-
-function closeModal() {
-    document.getElementById('product-modal').style.display = 'none'
-    document.body.style.overflow = ''
-    history.replaceState(null, '', '/shop')
-}
-
-function handleOverlayClick(e) {
-    if (e.target === document.getElementById('product-modal')) closeModal()
-}
-
-function modalAddToCart() {
-    if (_modalProduct) Cart.add(_modalProduct)
-}
-
-async function loadProducts(page) {
-    page = page || 1
-    currentPage = page
-    const search = document.getElementById('search-q').value
-    const sort = document.getElementById('sort-select').value
-    const cats = Array.from(document.querySelectorAll('.filter-group input:checked')).map(function(i) { return i.value })
-    const minP = document.getElementById('min-price').value
-    const maxP = document.getElementById('max-price').value
-
-    let url = '/products?page=' + page + '&limit=9'
-    if (search) url += '&search=' + encodeURIComponent(search)
-    if (sort) url += '&sort=' + sort
-    if (cats.length === 1) url += '&category=' + cats[0]
-
-    document.getElementById('products-container').innerHTML = '<div class="loader"><div class="spinner"></div></div>'
-
-    try {
-        const data = await API.get(url)
-        let products = data.products || []
-
-        if (minP) products = products.filter(function(p) { return p.price >= +minP })
-        if (maxP) products = products.filter(function(p) { return p.price <= +maxP })
-        if (cats.length > 1) products = products.filter(function(p) { return cats.includes(p.category) })
-
-        document.getElementById('results-info').textContent = 'Showing ' + products.length + ' of ' + data.total + ' products'
-
-        if (!products.length) {
-            document.getElementById('products-container').innerHTML = '<div class="no-products" style="grid-column:1/-1"><div class="icon">🔍</div><h3>No products found</h3><p>Try different filters or <a href="/api/products/seed" style="color:var(--primary)">seed sample products</a></p></div>'
-            document.getElementById('pagination').innerHTML = ''
-            return
+        function openModal(p) {
+            _modalProduct = p
+            const modalImg = document.getElementById('modal-img')
+            modalImg.setAttribute('referrerpolicy', 'no-referrer')
+            modalImg.src = p.image
+            modalImg.onerror = function () {
+                this.onerror = null
+                this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='360' viewBox='0 0 400 360'><rect width='400' height='360' fill='%231e293b'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-family='sans-serif' font-size='18'>" + encodeURIComponent(p.name) + "</text></svg>"
+            }
+            document.getElementById('modal-cat').textContent = p.category
+            document.getElementById('modal-name').textContent = p.name
+            document.getElementById('modal-stars').innerHTML = renderStars(p.rating) + ' <small style="color:#888">(' + p.numReviews + ' reviews)</small>'
+            document.getElementById('modal-price').textContent = '₹' + p.price.toLocaleString()
+            const orig = document.getElementById('modal-orig')
+            const disc = document.getElementById('modal-disc')
+            if (p.originalPrice) {
+                orig.textContent = '₹' + p.originalPrice.toLocaleString()
+                disc.textContent = '-' + calcDiscount(p.price, p.originalPrice) + '% OFF'
+            } else {
+                orig.textContent = ''
+                disc.textContent = ''
+            }
+            document.getElementById('modal-desc').textContent = p.description
+            document.getElementById('modal-stock').innerHTML = p.stock > 0
+                ? '<span style="color:var(--success)">✅ In Stock (' + p.stock + ' available)</span>'
+                : '<span style="color:var(--danger)">❌ Out of Stock</span>'
+            document.getElementById('modal-cart-btn').disabled = p.stock === 0
+            document.getElementById('product-modal').classList.add('open')
+            document.body.style.overflow = 'hidden'
+            history.replaceState(null, '', '/shop?id=' + p._id)
         }
 
-        document.getElementById('products-container').innerHTML = products.map(function(p) {
-            const disc = p.originalPrice ? calcDiscount(p.price, p.originalPrice) : 0
-            const pJson = JSON.stringify(p).replace(/'/g, '&#39;')
-            return '<div class="product-card">' +
-                (disc ? '<span class="badge">-' + disc + '%</span>' : '') +
-                '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.src=\'https://via.placeholder.com/300x220?text=No+Image\'" style="cursor:pointer" onclick="openModal(' + pJson + ')">' +
-                '<div class="card-body">' +
-                '<span style="font-size:12px;background:#e8f0fe;color:var(--primary);padding:3px 10px;border-radius:20px">' + p.category + '</span>' +
-                '<h3 style="margin-top:10px">' + p.name + '</h3>' +
-                '<div>' + renderStars(p.rating) + ' <small style="color:#888">(' + p.numReviews + ')</small></div>' +
-                '<div style="margin-top:8px"><span class="price">₹' + p.price.toLocaleString() + '</span>' +
-                (p.originalPrice ? '<span class="original-price">₹' + p.originalPrice.toLocaleString() + '</span>' : '') + '</div>' +
-                '<p style="font-size:13px;color:' + (p.stock > 0 ? 'var(--success)' : 'var(--danger)') + '">' +
-                (p.stock > 0 ? '✅ In Stock (' + p.stock + ')' : '❌ Out of Stock') + '</p>' +
-                '<div class="card-actions">' +
-                '<button class="btn btn-primary btn-sm" style="flex:1" onclick="Cart.add(' + pJson + ')" ' + (p.stock === 0 ? 'disabled' : '') + '>🛒 Add to Cart</button>' +
-                '<button class="btn btn-outline btn-sm" onclick="openModal(' + pJson + ')">👁 View</button>' +
-                '</div></div></div>'
-        }).join('')
-
-        const pages = data.pages
-        let paginationHTML = ''
-        if (pages > 1) {
-            if (page > 1) paginationHTML += '<button onclick="loadProducts(' + (page - 1) + ')">← Prev</button>'
-            for (let i = 1; i <= pages; i++) paginationHTML += '<button class="' + (i === page ? 'active' : '') + '" onclick="loadProducts(' + i + ')">' + i + '</button>'
-            if (page < pages) paginationHTML += '<button onclick="loadProducts(' + (page + 1) + ')">Next →</button>'
+        function closeModal() {
+            document.getElementById('product-modal').classList.remove('open')
+            document.body.style.overflow = ''
+            history.replaceState(null, '', '/shop')
         }
-        document.getElementById('pagination').innerHTML = paginationHTML
-    } catch (e) {
-        document.getElementById('products-container').innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Could not load products. Make sure server is running.</p>'
-    }
-}
 
-function applyFilters() { loadProducts(1) }
+        function handleOverlayClick(e) {
+            if (e.target === document.getElementById('product-modal')) closeModal()
+        }
 
-function clearFilters() {
-    document.querySelectorAll('.filter-group input[type=checkbox]').forEach(function(i) { i.checked = false })
-    document.getElementById('min-price').value = ''
-    document.getElementById('max-price').value = ''
-    document.getElementById('search-q').value = ''
-    document.getElementById('sort-select').value = ''
-    loadProducts(1)
-}
+        function modalAddToCart() {
+            if (_modalProduct) Cart.add(_modalProduct)
+        }
 
-const params = new URLSearchParams(window.location.search)
-if (params.get('category')) {
-    document.querySelectorAll('.filter-group input').forEach(function(i) { if (i.value === params.get('category')) i.checked = true })
-}
-if (params.get('search')) document.getElementById('search-q').value = params.get('search')
+        async function seedDatabase(btn) {
+            if (btn) { btn.disabled = true; btn.textContent = '⏳ Seeding Products...' }
+            try {
+                const res = await API.get('/products/seed')
+                showToast(res.message || '✅ Products seeded successfully!', 'success')
+                setTimeout(() => window.location.reload(), 1000)
+            } catch (err) {
+                showToast('Error seeding products: ' + err.message, 'error')
+                if (btn) { btn.disabled = false; btn.textContent = '🌱 Seed Sample Products' }
+            }
+        }
 
-loadProducts(1)
+        async function loadProducts(page) {
+            page = page || 1
+            currentPage = page
+            const container = document.getElementById('products-container')
+            container.innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Loading products...</p>'
 
-// If URL has ?id= open modal directly
-if (params.get('id')) {
-    API.get('/products/' + params.get('id')).then(function(p) {
-        if (p && p._id) openModal(p)
-    }).catch(function() {})
-}
-</script>
+            try {
+                const search = document.getElementById('search-q').value.trim()
+                const sort = document.getElementById('sort-select').value
+                const cats = Array.from(document.querySelectorAll('.filter-group input:checked')).map(function (c) { return c.value })
+                const minP = document.getElementById('min-price').value
+                const maxP = document.getElementById('max-price').value
+
+                let url = '/products?page=' + page + '&limit=9'
+                if (search) url += '&search=' + encodeURIComponent(search)
+                if (sort) url += '&sort=' + sort
+
+                const data = await API.get(url)
+                let products = data.products || []
+
+                if (minP) products = products.filter(function (p) { return p.price >= +minP })
+                if (maxP) products = products.filter(function (p) { return p.price <= +maxP })
+                if (cats.length > 1) products = products.filter(function (p) { return cats.includes(p.category) })
+
+                document.getElementById('results-info').textContent = 'Showing ' + products.length + ' of ' + data.total + ' products'
+
+                if (!products.length) {
+                    document.getElementById('products-container').innerHTML = '<div class="no-products" style="grid-column:1/-1"><div class="icon">🔍</div><h3>No products found</h3><p style="margin-bottom:15px">Try different filters or click below to populate the catalog:</p><button class="btn btn-primary btn-sm" onclick="seedDatabase(this)">🌱 Seed Sample Products</button></div>'
+                    document.getElementById('pagination').innerHTML = ''
+                    return
+                }
+
+                document.getElementById('products-container').innerHTML = products.map(function (p) {
+                    const disc = p.originalPrice ? calcDiscount(p.price, p.originalPrice) : 0
+                    const pJson = JSON.stringify(p).replace(/'/g, '&#39;')
+                    const svgFallback = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220'><rect width='300' height='220' fill='%231e293b'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-family='sans-serif' font-size='14'>" + encodeURIComponent(p.name) + "</text></svg>"
+                    return '<div class="product-card">' +
+                        (disc ? '<span class="badge">-' + disc + '%</span>' : '') +
+                        '<img src="' + p.image + '" alt="' + p.name + '" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'' + svgFallback + '\'" style="cursor:pointer" onclick="openModal(' + pJson + ')">' +
+                        '<div class="card-body">' +
+                        '<span style="font-size:12px;background:#e8f0fe;color:var(--primary);padding:3px 10px;border-radius:20px">' + p.category + '</span>' +
+                        '<h3 style="margin-top:10px">' + p.name + '</h3>' +
+                        '<div>' + renderStars(p.rating) + ' <small style="color:#888">(' + p.numReviews + ')</small></div>' +
+                        '<div style="margin-top:8px"><span class="price">₹' + p.price.toLocaleString() + '</span>' +
+                        (p.originalPrice ? '<span class="original-price">₹' + p.originalPrice.toLocaleString() + '</span>' : '') + '</div>' +
+                        '<p style="font-size:13px;color:' + (p.stock > 0 ? 'var(--success)' : 'var(--danger)') + '">' +
+                        (p.stock > 0 ? '✅ In Stock (' + p.stock + ')' : '❌ Out of Stock') + '</p>' +
+                        '<div class="card-actions">' +
+                        '<button class="btn btn-primary btn-sm" style="flex:1" onclick="Cart.add(' + pJson + ')" ' + (p.stock === 0 ? 'disabled' : '') + '>🛒 Add to Cart</button>' +
+                        '<button class="btn btn-outline btn-sm" onclick="openModal(' + pJson + ')">👁 View</button>' +
+                        '</div></div></div>'
+                }).join('')
+
+                const pages = data.pages
+                let paginationHTML = ''
+                if (pages > 1) {
+                    if (page > 1) paginationHTML += '<button onclick="loadProducts(' + (page - 1) + ')">← Prev</button>'
+                    for (let i = 1; i <= pages; i++) paginationHTML += '<button class="' + (i === page ? 'active' : '') + '" onclick="loadProducts(' + i + ')">' + i + '</button>'
+                    if (page < pages) paginationHTML += '<button onclick="loadProducts(' + (page + 1) + ')">Next →</button>'
+                }
+                document.getElementById('pagination').innerHTML = paginationHTML
+            } catch (e) {
+                document.getElementById('products-container').innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Could not load products. Make sure server is running.</p>'
+            }
+        }
+
+        function toggleSidebarFilter() {
+            const sidebar = document.querySelector('.sidebar')
+            if (sidebar) sidebar.classList.toggle('open')
+        }
+
+        function applyFilters() { loadProducts(1) }
+
+        function clearFilters() {
+            document.querySelectorAll('.filter-group input[type=checkbox]').forEach(function (i) { i.checked = false })
+            document.getElementById('min-price').value = ''
+            document.getElementById('max-price').value = ''
+            document.getElementById('search-q').value = ''
+            document.getElementById('sort-select').value = ''
+            loadProducts(1)
+        }
+
+        const params = new URLSearchParams(window.location.search)
+        if (params.get('category')) {
+            document.querySelectorAll('.filter-group input').forEach(function (i) { if (i.value === params.get('category')) i.checked = true })
+        }
+        if (params.get('search')) document.getElementById('search-q').value = params.get('search')
+
+        loadProducts(1)
+
+        // If URL has ?id= open modal directly
+        if (params.get('id')) {
+            API.get('/products/' + params.get('id')).then(function (p) {
+                if (p && p._id) openModal(p)
+            }).catch(function () { })
+        }
+    </script>
 </body>
+
 </html>

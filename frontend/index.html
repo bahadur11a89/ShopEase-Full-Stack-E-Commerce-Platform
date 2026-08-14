@@ -715,15 +715,16 @@
                 const products = await API.get('/products/featured')
                 const container = document.getElementById('featured-products')
                 if (!products.length) {
-                    container.innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">No products found. <a href="/api/products/seed">Seed products</a></p>'
+                    container.innerHTML = '<div style="text-align:center;padding:30px;grid-column:1/-1"><p style="color:#888;margin-bottom:15px;font-size:16px">🌱 No products found in database yet.</p><button class="btn btn-primary" onclick="seedDatabase(this)">✨ Seed 36 Sample Products</button></div>'
                     return
                 }
                 container.innerHTML = products.map(function (p) {
                     const disc = p.originalPrice ? calcDiscount(p.price, p.originalPrice) : 0
                     const pJson = JSON.stringify(p).replace(/'/g, '&#39;')
+                    const svgFallback = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220'><rect width='300' height='220' fill='%231e293b'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-family='sans-serif' font-size='14'>" + encodeURIComponent(p.name) + "</text></svg>"
                     return '<div class="product-card">' +
                         (disc ? '<span class="badge">-' + disc + '%</span>' : '') +
-                        '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.src=\'https://via.placeholder.com/300x220?text=No+Image\'" style="cursor:pointer" onclick="window.location.href=\'/shop?id=' + p._id + '\'">' +
+                        '<img src="' + p.image + '" alt="' + p.name + '" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'' + svgFallback + '\'" style="cursor:pointer" onclick="window.location.href=\'/shop?id=' + p._id + '\'">' +
                         '<div class="card-body">' +
                         '<span style="font-size:12px;background:#e8f0fe;color:var(--primary);padding:3px 10px;border-radius:20px">' + p.category + '</span>' +
                         '<h3 style="margin-top:10px">' + p.name + '</h3>' +
@@ -738,6 +739,17 @@
                 }).join('')
             } catch (e) {
                 document.getElementById('featured-products').innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Could not load products.</p>'
+            }
+        }
+        async function seedDatabase(btn) {
+            if (btn) { btn.disabled = true; btn.textContent = '⏳ Seeding Products...' }
+            try {
+                const res = await API.get('/products/seed')
+                showToast(res.message || '✅ Products seeded successfully!', 'success')
+                setTimeout(() => window.location.reload(), 1000)
+            } catch (err) {
+                showToast('Error seeding products: ' + err.message, 'error')
+                if (btn) { btn.disabled = false; btn.textContent = '✨ Seed 36 Sample Products' }
             }
         }
         loadFeatured()

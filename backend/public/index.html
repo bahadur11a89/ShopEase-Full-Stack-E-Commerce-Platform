@@ -1,337 +1,759 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShopEase | India's Best Online Store</title>
-<link rel="stylesheet" href="/css/style.css">
-<style>
-.hero { background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 50%, #084298 100%); color: #fff; padding: 90px 0 80px; }
-.hero-inner { width: 90%; margin: auto; display: flex; justify-content: space-between; align-items: center; gap: 50px; }
-.hero-text h1 { font-size: 52px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
-.hero-text h1 span { color: #ffc107; }
-.hero-text p { font-size: 18px; opacity: .9; line-height: 1.7; margin-bottom: 35px; max-width: 500px; }
-.hero-btns { display: flex; gap: 15px; flex-wrap: wrap; }
-.hero-img { flex-shrink: 0; }
-.hero-img img { width: 480px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
-.hero-stats { display: flex; gap: 40px; margin-top: 40px; }
-.stat h3 { font-size: 28px; font-weight: 800; color: #ffc107; }
-.stat p { font-size: 13px; opacity: .8; }
-.search-section { background: #fff; padding: 30px 0; box-shadow: 0 4px 15px rgba(0,0,0,.08); }
-.search-inner { width: 90%; margin: auto; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
-.search-box { flex: 1; display: flex; border: 2px solid var(--primary); border-radius: 10px; overflow: hidden; min-width: 280px; }
-.search-box select { padding: 12px 15px; border: none; border-right: 2px solid var(--primary); background: #f0f4ff; font-size: 14px; outline: none; }
-.search-box input { flex: 1; padding: 12px 15px; border: none; font-size: 15px; outline: none; }
-.search-box button { padding: 12px 25px; background: var(--primary); color: #fff; border: none; font-size: 15px; cursor: pointer; font-weight: 600; transition: .3s; }
-.search-box button:hover { background: var(--primary-dark); }
-.categories { width: 90%; margin: 60px auto; }
-.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; }
-.cat-card { background: #fff; border-radius: 12px; padding: 25px 15px; text-align: center; box-shadow: var(--shadow); cursor: pointer; transition: .3s; text-decoration: none; color: var(--dark); }
-.cat-card:hover { transform: translateY(-6px); background: var(--primary); color: #fff; }
-.cat-card .icon { font-size: 36px; margin-bottom: 10px; }
-.cat-card p { font-size: 14px; font-weight: 600; }
-.featured { width: 90%; margin: 60px auto; }
-.offers { width: 90%; margin: 60px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-.offer-card { border-radius: 15px; padding: 40px; color: #fff; position: relative; overflow: hidden; }
-.offer-card h2 { font-size: 28px; margin-bottom: 10px; }
-.offer-card p { opacity: .9; margin-bottom: 20px; }
-.offer-1 { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
-.offer-2 { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
-.features { background: #fff; padding: 70px 0; margin-top: 60px; }
-.features-inner { width: 90%; margin: auto; }
-.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; }
-.feature-card { text-align: center; padding: 30px 20px; border-radius: 12px; border: 2px solid #f0f0f0; transition: .3s; }
-.feature-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-.feature-card .icon { font-size: 48px; margin-bottom: 15px; }
-.feature-card h3 { font-size: 18px; margin-bottom: 10px; color: var(--primary); }
-.feature-card p { color: var(--secondary); font-size: 14px; line-height: 1.6; }
-.newsletter { background: linear-gradient(135deg, #0d6efd, #084298); color: #fff; padding: 70px 0; }
-.newsletter-inner { width: 90%; margin: auto; text-align: center; }
-.newsletter h2 { font-size: 36px; margin-bottom: 12px; }
-.newsletter p { opacity: .9; margin-bottom: 35px; font-size: 17px; }
-.newsletter-form { display: flex; max-width: 500px; margin: auto; gap: 0; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,.2); }
-.newsletter-form input { flex: 1; padding: 16px 20px; border: none; font-size: 15px; outline: none; }
-.newsletter-form button { padding: 16px 28px; background: #ffc107; color: var(--dark); border: none; font-weight: 700; font-size: 15px; cursor: pointer; transition: .3s; }
-.newsletter-form button:hover { background: #e0a800; }
-.testimonials { width: 90%; margin: 70px auto; }
-.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 50px; }
-.testimonial-card { background: #fff; padding: 30px; border-radius: 12px; box-shadow: var(--shadow); }
-.testimonial-card .quote { font-size: 40px; color: var(--primary); line-height: 1; margin-bottom: 15px; }
-.testimonial-card p { color: #555; line-height: 1.7; font-style: italic; margin-bottom: 20px; }
-.testimonial-card .author { display: flex; align-items: center; gap: 12px; }
-.testimonial-card .author img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
-.testimonial-card .author h4 { font-size: 15px; }
-.testimonial-card .author span { font-size: 13px; color: var(--secondary); }
-@media(max-width:768px) {
-    .hero-inner { flex-direction: column; text-align: center; }
-    .hero-text h1 { font-size: 36px; }
-    .hero-img img { width: 100%; }
-    .hero-btns { justify-content: center; }
-    .hero-stats { justify-content: center; }
-    .offers { grid-template-columns: 1fr; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase | India's Best Online Store</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 50%, #084298 100%);
+            color: #fff;
+            padding: 90px 0 80px;
+        }
+
+        .hero-inner {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .hero-text h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text h1 span {
+            color: #ffc107;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            opacity: .9;
+            line-height: 1.7;
+            margin-bottom: 35px;
+            max-width: 500px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-img {
+            flex-shrink: 0;
+        }
+
+        .hero-img img {
+            width: 480px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat h3 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffc107;
+        }
+
+        .stat p {
+            font-size: 13px;
+            opacity: .8;
+        }
+
+        .search-section {
+            background: #fff;
+            padding: 30px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .08);
+        }
+
+        .search-inner {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            display: flex;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            overflow: hidden;
+            min-width: 280px;
+        }
+
+        .search-box select {
+            padding: 12px 15px;
+            border: none;
+            border-right: 2px solid var(--primary);
+            background: #f0f4ff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-box button {
+            padding: 12px 25px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .search-box button:hover {
+            background: var(--primary-dark);
+        }
+
+        .categories {
+            width: 90%;
+            margin: 60px auto;
+        }
+
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 20px;
+        }
+
+        .cat-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: .3s;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .cat-card:hover {
+            transform: translateY(-6px);
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .cat-card .icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .cat-card p {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .featured {
+            width: 90%;
+            margin: 60px auto;
+        }
+
+        .offers {
+            width: 90%;
+            margin: 60px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .offer-card {
+            border-radius: 15px;
+            padding: 40px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-card h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .offer-card p {
+            opacity: .9;
+            margin-bottom: 20px;
+        }
+
+        .offer-1 {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+
+        .offer-2 {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+        }
+
+        .features {
+            background: #fff;
+            padding: 70px 0;
+            margin-top: 60px;
+        }
+
+        .features-inner {
+            width: 90%;
+            margin: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 12px;
+            border: 2px solid #f0f0f0;
+            transition: .3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .feature-card .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .newsletter {
+            background: linear-gradient(135deg, #0d6efd, #084298);
+            color: #fff;
+            padding: 70px 0;
+        }
+
+        .newsletter-inner {
+            width: 90%;
+            margin: auto;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .newsletter p {
+            opacity: .9;
+            margin-bottom: 35px;
+            font-size: 17px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: auto;
+            gap: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .2);
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            padding: 16px 28px;
+            background: #ffc107;
+            color: var(--dark);
+            border: none;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .newsletter-form button:hover {
+            background: #e0a800;
+        }
+
+        .testimonials {
+            width: 90%;
+            margin: 70px auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-card .quote {
+            font-size: 40px;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card p {
+            color: #555;
+            line-height: 1.7;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-card .author img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .testimonial-card .author h4 {
+            font-size: 15px;
+        }
+
+        .testimonial-card .author span {
+            font-size: 13px;
+            color: var(--secondary);
+        }
+
+        @media(max-width:768px) {
+            .hero-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .hero-img img {
+                width: 100%;
+            }
+
+            .hero-btns {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .offers {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<header>
-<nav>
-    <a href="/" class="logo">Shop<span>Ease</span></a>
-    <ul>
-        <li><a href="/" class="active">Home</a></li>
-        <li><a href="/shop">Shop</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/services">Services</a></li>
-        <li><a href="/gallery">Gallery</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li>
-            <a href="/cart" style="position:relative">
-                🛒 Cart
-                <span class="cart-count" id="cart-count" style="display:none">0</span>
-            </a>
-        </li>
-        <li id="nav-login"><a href="/login" class="nav-btn">Login</a></li>
-        <li id="nav-user" style="display:none"></li>
-    </ul>
-</nav>
-</header>
+    <header>
+        <nav>
+            <a href="/" class="logo">Shop<span>Ease</span></a>
+            <ul class="nav-links">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/gallery">Gallery</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li>
+                    <a href="/cart" class="cart-icon">
+                        🛒 Cart
+                        <span class="cart-count" id="cart-count" style="display:none">0</span>
+                    </a>
+                </li>
+                <li id="nav-login"><a href="/login" class="nav-btn">Login</a></li>
+                <li id="nav-user" style="display:none"></li>
+            </ul>
+        </nav>
+    </header>
 
-<!-- Hero -->
-<section class="hero">
-    <div class="hero-inner">
-        <div class="hero-text">
-            <h1>Shop Smart,<br>Live <span>Better</span> 🛍️</h1>
-            <p>Discover millions of products at unbeatable prices. Fast delivery, secure payments, and easy returns — all in one place.</p>
-            <div class="hero-btns">
-                <a href="/shop" class="btn" style="background:#ffc107;color:#212529;font-weight:700;">Shop Now →</a>
-                <a href="/about" class="btn" style="background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.5);">Learn More</a>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-text">
+                <h1>Shop Smart,<br>Live <span>Better</span> 🛍️</h1>
+                <p>Discover millions of products at unbeatable prices. Fast delivery, secure payments, and easy returns
+                    — all in one place.</p>
+                <div class="hero-btns">
+                    <a href="/shop" class="btn" style="background:#ffc107;color:#212529;font-weight:700;">Shop Now →</a>
+                    <a href="/about" class="btn"
+                        style="background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.5);">Learn
+                        More</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>50K+</h3>
+                        <p>Products</p>
+                    </div>
+                    <div class="stat">
+                        <h3>2M+</h3>
+                        <p>Customers</p>
+                    </div>
+                    <div class="stat">
+                        <h3>4.8★</h3>
+                        <p>Rating</p>
+                    </div>
+                </div>
             </div>
-            <div class="hero-stats">
-                <div class="stat"><h3>50K+</h3><p>Products</p></div>
-                <div class="stat"><h3>2M+</h3><p>Customers</p></div>
-                <div class="stat"><h3>4.8★</h3><p>Rating</p></div>
+            <div class="hero-img">
+                <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800" alt="Shopping" referrerpolicy="no-referrer">
             </div>
         </div>
-        <div class="hero-img">
-            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800" alt="Shopping">
+    </section>
+
+    <!-- Search -->
+    <section class="search-section">
+        <div class="search-inner">
+            <div class="search-box">
+                <select id="search-cat">
+                    <option value="">All Categories</option>
+                    <option>Electronics</option>
+                    <option>Fashion</option>
+                    <option>Footwear</option>
+                    <option>Accessories</option>
+                    <option>Home</option>
+                    <option>Beauty</option>
+                    <option>Sports</option>
+                </select>
+                <input type="text" id="search-input" placeholder="Search for products, brands and more...">
+                <button onclick="doSearch()">🔍 Search</button>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Search -->
-<section class="search-section">
-    <div class="search-inner">
-        <div class="search-box">
-            <select id="search-cat">
-                <option value="">All Categories</option>
-                <option>Electronics</option>
-                <option>Fashion</option>
-                <option>Footwear</option>
-                <option>Accessories</option>
-                <option>Home</option>
-                <option>Beauty</option>
-                <option>Sports</option>
-            </select>
-            <input type="text" id="search-input" placeholder="Search for products, brands and more...">
-            <button onclick="doSearch()">🔍 Search</button>
-        </div>
-    </div>
-</section>
-
-<!-- Categories -->
-<section class="categories">
-    <div class="section-title">
-        <h2>Shop by Category</h2>
-        <p>Find exactly what you're looking for</p>
-    </div>
-    <div class="cat-grid">
-        <a href="/shop?category=Electronics" class="cat-card"><div class="icon">📱</div><p>Electronics</p></a>
-        <a href="/shop?category=Fashion" class="cat-card"><div class="icon">👗</div><p>Fashion</p></a>
-        <a href="/shop?category=Footwear" class="cat-card"><div class="icon">👟</div><p>Footwear</p></a>
-        <a href="/shop?category=Accessories" class="cat-card"><div class="icon">👜</div><p>Accessories</p></a>
-        <a href="/shop?category=Home" class="cat-card"><div class="icon">🏠</div><p>Home</p></a>
-        <a href="/shop?category=Beauty" class="cat-card"><div class="icon">💄</div><p>Beauty</p></a>
-        <a href="/shop?category=Sports" class="cat-card"><div class="icon">⚽</div><p>Sports</p></a>
-        <a href="/shop" class="cat-card"><div class="icon">🛍️</div><p>All Items</p></a>
-    </div>
-</section>
-
-<!-- Featured Products -->
-<section class="featured">
-    <div class="section-title">
-        <h2>Featured Products</h2>
-        <p>Handpicked top deals just for you</p>
-    </div>
-    <div class="products-grid" id="featured-products">
-        <div class="loader"><div class="spinner"></div></div>
-    </div>
-    <div style="text-align:center;margin-top:40px;">
-        <a href="/shop" class="btn btn-outline">View All Products →</a>
-    </div>
-</section>
-
-<!-- Offers -->
-<section class="offers">
-    <div class="offer-card offer-1">
-        <h2>🔥 Flash Sale!</h2>
-        <p>Up to 70% off on Electronics. Limited time offer. Don't miss out!</p>
-        <a href="/shop?category=Electronics" class="btn" style="background:#fff;color:#ee5a24;font-weight:700;">Shop Electronics</a>
-    </div>
-    <div class="offer-card offer-2">
-        <h2>👗 New Arrivals</h2>
-        <p>Fresh fashion collection just dropped. Trendy styles at amazing prices.</p>
-        <a href="/shop?category=Fashion" class="btn" style="background:#fff;color:#6c5ce7;font-weight:700;">Shop Fashion</a>
-    </div>
-</section>
-
-<!-- Features -->
-<section class="features">
-    <div class="features-inner">
+    <!-- Categories -->
+    <section class="categories">
         <div class="section-title">
-            <h2>Why Choose ShopEase?</h2>
-            <p>We make online shopping simple, safe and enjoyable</p>
+            <h2>Shop by Category</h2>
+            <p>Find exactly what you're looking for</p>
         </div>
-        <div class="features-grid">
-            <div class="feature-card"><div class="icon">🚚</div><h3>Free Delivery</h3><p>Free shipping on orders above ₹499. Fast delivery across India.</p></div>
-            <div class="feature-card"><div class="icon">🔒</div><h3>Secure Payment</h3><p>100% secure payments via UPI, Cards, Net Banking & Wallets.</p></div>
-            <div class="feature-card"><div class="icon">🔄</div><h3>Easy Returns</h3><p>30-day hassle-free return policy on all eligible products.</p></div>
-            <div class="feature-card"><div class="icon">📞</div><h3>24/7 Support</h3><p>Round-the-clock customer support via chat, call and email.</p></div>
-            <div class="feature-card"><div class="icon">⭐</div><h3>Best Quality</h3><p>All products are quality-checked before reaching your doorstep.</p></div>
-            <div class="feature-card"><div class="icon">🏷️</div><h3>Best Prices</h3><p>Guaranteed lowest prices with daily deals and exclusive offers.</p></div>
+        <div class="cat-grid">
+            <a href="/shop?category=Electronics" class="cat-card">
+                <div class="icon">📱</div>
+                <p>Electronics</p>
+            </a>
+            <a href="/shop?category=Fashion" class="cat-card">
+                <div class="icon">👗</div>
+                <p>Fashion</p>
+            </a>
+            <a href="/shop?category=Footwear" class="cat-card">
+                <div class="icon">👟</div>
+                <p>Footwear</p>
+            </a>
+            <a href="/shop?category=Accessories" class="cat-card">
+                <div class="icon">👜</div>
+                <p>Accessories</p>
+            </a>
+            <a href="/shop?category=Home" class="cat-card">
+                <div class="icon">🏠</div>
+                <p>Home</p>
+            </a>
+            <a href="/shop?category=Beauty" class="cat-card">
+                <div class="icon">💄</div>
+                <p>Beauty</p>
+            </a>
+            <a href="/shop?category=Sports" class="cat-card">
+                <div class="icon">⚽</div>
+                <p>Sports</p>
+            </a>
+            <a href="/shop" class="cat-card">
+                <div class="icon">🛍️</div>
+                <p>All Items</p>
+            </a>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Testimonials -->
-<section class="testimonials">
-    <div class="section-title">
-        <h2>What Our Customers Say</h2>
-        <p>Trusted by over 2 million happy shoppers</p>
-    </div>
-    <div class="testimonials-grid">
-        <div class="testimonial-card">
-            <div class="quote">"</div>
-            <p>Amazing shopping experience! Got my order in just 2 days. The product quality is excellent and packaging was perfect.</p>
-            <div class="author">
-                <img src="https://i.pravatar.cc/48?img=1" alt="">
-                <div><h4>Rahul Sharma</h4><span>⭐⭐⭐⭐⭐ Delhi</span></div>
+    <!-- Featured Products -->
+    <section class="featured">
+        <div class="section-title">
+            <h2>Featured Products</h2>
+            <p>Handpicked top deals just for you</p>
+        </div>
+        <div class="products-grid" id="featured-products">
+            <div class="loader">
+                <div class="spinner"></div>
             </div>
         </div>
-        <div class="testimonial-card">
-            <div class="quote">"</div>
-            <p>Best prices I've found online. The return process was super easy when I needed to exchange a size. Highly recommend!</p>
-            <div class="author">
-                <img src="https://i.pravatar.cc/48?img=5" alt="">
-                <div><h4>Priya Singh</h4><span>⭐⭐⭐⭐⭐ Mumbai</span></div>
+        <div style="text-align:center;margin-top:40px;">
+            <a href="/shop" class="btn btn-outline">View All Products →</a>
+        </div>
+    </section>
+
+    <!-- Offers -->
+    <section class="offers">
+        <div class="offer-card offer-1">
+            <h2>🔥 Flash Sale!</h2>
+            <p>Up to 70% off on Electronics. Limited time offer. Don't miss out!</p>
+            <a href="/shop?category=Electronics" class="btn" style="background:#fff;color:#ee5a24;font-weight:700;">Shop
+                Electronics</a>
+        </div>
+        <div class="offer-card offer-2">
+            <h2>👗 New Arrivals</h2>
+            <p>Fresh fashion collection just dropped. Trendy styles at amazing prices.</p>
+            <a href="/shop?category=Fashion" class="btn" style="background:#fff;color:#6c5ce7;font-weight:700;">Shop
+                Fashion</a>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="features-inner">
+            <div class="section-title">
+                <h2>Why Choose ShopEase?</h2>
+                <p>We make online shopping simple, safe and enjoyable</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🚚</div>
+                    <h3>Free Delivery</h3>
+                    <p>Free shipping on orders above ₹499. Fast delivery across India.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔒</div>
+                    <h3>Secure Payment</h3>
+                    <p>100% secure payments via UPI, Cards, Net Banking & Wallets.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔄</div>
+                    <h3>Easy Returns</h3>
+                    <p>30-day hassle-free return policy on all eligible products.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📞</div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock customer support via chat, call and email.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">⭐</div>
+                    <h3>Best Quality</h3>
+                    <p>All products are quality-checked before reaching your doorstep.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🏷️</div>
+                    <h3>Best Prices</h3>
+                    <p>Guaranteed lowest prices with daily deals and exclusive offers.</p>
+                </div>
             </div>
         </div>
-        <div class="testimonial-card">
-            <div class="quote">"</div>
-            <p>ShopEase has become my go-to for all online shopping. Great deals, fast delivery and excellent customer service!</p>
-            <div class="author">
-                <img src="https://i.pravatar.cc/48?img=8" alt="">
-                <div><h4>Amit Kumar</h4><span>⭐⭐⭐⭐⭐ Bangalore</span></div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="section-title">
+            <h2>What Our Customers Say</h2>
+            <p>Trusted by over 2 million happy shoppers</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="quote">"</div>
+                <p>Amazing shopping experience! Got my order in just 2 days. The product quality is excellent and
+                    packaging was perfect.</p>
+                <div class="author">
+                    <img src="https://i.pravatar.cc/48?img=1" alt="" referrerpolicy="no-referrer">
+                    <div>
+                        <h4>Rahul Sharma</h4><span>⭐⭐⭐⭐⭐ Delhi</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote">"</div>
+                <p>Best prices I've found online. The return process was super easy when I needed to exchange a size.
+                    Highly recommend!</p>
+                <div class="author">
+                    <img src="https://i.pravatar.cc/48?img=5" alt="" referrerpolicy="no-referrer">
+                    <div>
+                        <h4>Priya Singh</h4><span>⭐⭐⭐⭐⭐ Mumbai</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote">"</div>
+                <p>ShopEase has become my go-to for all online shopping. Great deals, fast delivery and excellent
+                    customer service!</p>
+                <div class="author">
+                    <img src="https://i.pravatar.cc/48?img=8" alt="" referrerpolicy="no-referrer">
+                    <div>
+                        <h4>Amit Kumar</h4><span>⭐⭐⭐⭐⭐ Bangalore</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Newsletter -->
-<section class="newsletter">
-    <div class="newsletter-inner">
-        <h2>📧 Subscribe & Save 20%</h2>
-        <p>Get exclusive deals, new arrivals and special offers delivered to your inbox</p>
-        <div class="newsletter-form">
-            <input type="email" id="newsletter-email" placeholder="Enter your email address">
-            <button onclick="subscribeNewsletter()">Subscribe</button>
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="newsletter-inner">
+            <h2>📧 Subscribe & Save 20%</h2>
+            <p>Get exclusive deals, new arrivals and special offers delivered to your inbox</p>
+            <div class="newsletter-form">
+                <input type="email" id="newsletter-email" placeholder="Enter your email address">
+                <button onclick="subscribeNewsletter()">Subscribe</button>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Footer -->
-<footer>
-    <div class="footer-top">
-        <div class="footer-col">
-            <h4>ShopEase</h4>
-            <p>India's most trusted online shopping destination. Quality products, best prices, fast delivery.</p>
-
+    <!-- Footer -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-col">
+                <h4>ShopEase</h4>
+                <p>India's most trusted online shopping destination. Quality products, best prices, fast delivery.</p>
+                <div class="social-links">
+                    <a href="https://github.com/bahadur11a89" target="_blank" title="GitHub" class="github">
+                        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/raj-bahadur11" target="_blank" title="LinkedIn" class="linkedin">
+                        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                    </a>
+                    <a href="https://youtube.com/@bahadur11a89" target="_blank" title="YouTube" class="youtube">
+                        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="/">Home</a><a href="/shop">Shop</a><a href="/about">About Us</a>
+                <a href="/services">Services</a><a href="/contact">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <a href="/shop?category=Electronics">Electronics</a>
+                <a href="/shop?category=Fashion">Fashion</a>
+                <a href="/shop?category=Footwear">Footwear</a>
+                <a href="/shop?category=Accessories">Accessories</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p>📍 Lucknow, Uttar Pradesh, India</p>
+                <p>📞 +91 9648388196</p>
+                <p>📧 bahadur11a89@gmail.com</p>
+                <p>🕐 Mon-Sat: 9AM - 6PM</p>
+            </div>
         </div>
-        <div class="footer-col">
-            <h4>Quick Links</h4>
-            <a href="/">Home</a><a href="/shop">Shop</a><a href="/about">About Us</a>
-            <a href="/services">Services</a><a href="/contact">Contact</a>
+        <div class="footer-bottom">
+            <p>© 2026 ShopEase. All Rights Reserved. | Made with ❤️ in India</p>
         </div>
-        <div class="footer-col">
-            <h4>Categories</h4>
-            <a href="/shop?category=Electronics">Electronics</a>
-            <a href="/shop?category=Fashion">Fashion</a>
-            <a href="/shop?category=Footwear">Footwear</a>
-            <a href="/shop?category=Accessories">Accessories</a>
-        </div>
-        <div class="footer-col">
-            <h4>Contact Us</h4>
-            <p>📍 Lucknow, Uttar Pradesh, India</p>
-            <p>📞 +91 9648388196</p>
-            <p>📧 bahadur11a89@gmail.com</p>
-            <p>🕐 Mon-Sat: 9AM - 6PM</p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>© 2026 ShopEase. All Rights Reserved. | Made with ❤️ in India</p>
-    </div>
-</footer>
+    </footer>
 
-<div id="toast" class="toast"></div>
-<script src="/js/app.js"></script>
-<script>
-function doSearch() {
-    const q = document.getElementById('search-input').value.trim()
-    const cat = document.getElementById('search-cat').value
-    let url = '/shop?'
-    if (q) url += 'search=' + encodeURIComponent(q) + '&'
-    if (cat) url += 'category=' + encodeURIComponent(cat)
-    window.location.href = url
-}
-document.getElementById('search-input').addEventListener('keypress', function(e) { if (e.key === 'Enter') doSearch() })
-
-function subscribeNewsletter() {
-    const email = document.getElementById('newsletter-email').value
-    if (!email) return showToast('Please enter your email', 'error')
-    showToast('🎉 Subscribed! Check your email for 20% off coupon.', 'success')
-    document.getElementById('newsletter-email').value = ''
-}
-
-async function loadFeatured() {
-    try {
-        const products = await API.get('/products/featured')
-        const container = document.getElementById('featured-products')
-        if (!products.length) {
-            container.innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">No products found. <a href="/api/products/seed">Seed products</a></p>'
-            return
+    <div id="toast" class="toast"></div>
+    <script src="/js/app.js"></script>
+    <script>
+        function doSearch() {
+            const q = document.getElementById('search-input').value.trim()
+            const cat = document.getElementById('search-cat').value
+            let url = '/shop?'
+            if (q) url += 'search=' + encodeURIComponent(q) + '&'
+            if (cat) url += 'category=' + encodeURIComponent(cat)
+            window.location.href = url
         }
-        container.innerHTML = products.map(function(p) {
-            const disc = p.originalPrice ? calcDiscount(p.price, p.originalPrice) : 0
-            const pJson = JSON.stringify(p).replace(/'/g, '&#39;')
-            return '<div class="product-card">' +
-                (disc ? '<span class="badge">-' + disc + '%</span>' : '') +
-                '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.src=\'https://via.placeholder.com/300x220?text=No+Image\'" style="cursor:pointer" onclick="window.location.href=\'/shop?id=' + p._id + '\'">' +
-                '<div class="card-body">' +
-                '<span style="font-size:12px;background:#e8f0fe;color:var(--primary);padding:3px 10px;border-radius:20px">' + p.category + '</span>' +
-                '<h3 style="margin-top:10px">' + p.name + '</h3>' +
-                '<div>' + renderStars(p.rating) + ' <small style="color:#888">(' + p.numReviews + ')</small></div>' +
-                '<div style="margin-top:8px"><span class="price">&#8377;' + p.price.toLocaleString() + '</span>' +
-                (p.originalPrice ? '<span class="original-price">&#8377;' + p.originalPrice.toLocaleString() + '</span>' : '') +
-                '</div>' +
-                '<div class="card-actions">' +
-                '<button class="btn btn-primary btn-sm" style="flex:1" onclick="Cart.add(' + pJson + ')">&#128722; Add to Cart</button>' +
-                '<a href="/shop?id=' + p._id + '" class="btn btn-outline btn-sm">View</a>' +
-                '</div></div></div>'
-        }).join('')
-    } catch(e) {
-        document.getElementById('featured-products').innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Could not load products.</p>'
-    }
-}
-loadFeatured()
-</script>
+        document.getElementById('search-input').addEventListener('keypress', function (e) { if (e.key === 'Enter') doSearch() })
+
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletter-email').value
+            if (!email) return showToast('Please enter your email', 'error')
+            showToast('🎉 Subscribed! Check your email for 20% off coupon.', 'success')
+            document.getElementById('newsletter-email').value = ''
+        }
+
+        async function loadFeatured() {
+            try {
+                const products = await API.get('/products/featured')
+                const container = document.getElementById('featured-products')
+                if (!products.length) {
+                    container.innerHTML = '<div style="text-align:center;padding:30px;grid-column:1/-1"><p style="color:#888;margin-bottom:15px;font-size:16px">🌱 No products found in database yet.</p><button class="btn btn-primary" onclick="seedDatabase(this)">✨ Seed 36 Sample Products</button></div>'
+                    return
+                }
+                container.innerHTML = products.map(function (p) {
+                    const disc = p.originalPrice ? calcDiscount(p.price, p.originalPrice) : 0
+                    const pJson = JSON.stringify(p).replace(/'/g, '&#39;')
+                    const svgFallback = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220'><rect width='300' height='220' fill='%231e293b'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-family='sans-serif' font-size='14'>" + encodeURIComponent(p.name) + "</text></svg>"
+                    return '<div class="product-card">' +
+                        (disc ? '<span class="badge">-' + disc + '%</span>' : '') +
+                        '<img src="' + p.image + '" alt="' + p.name + '" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'' + svgFallback + '\'" style="cursor:pointer" onclick="window.location.href=\'/shop?id=' + p._id + '\'">' +
+                        '<div class="card-body">' +
+                        '<span style="font-size:12px;background:#e8f0fe;color:var(--primary);padding:3px 10px;border-radius:20px">' + p.category + '</span>' +
+                        '<h3 style="margin-top:10px">' + p.name + '</h3>' +
+                        '<div>' + renderStars(p.rating) + ' <small style="color:#888">(' + p.numReviews + ')</small></div>' +
+                        '<div style="margin-top:8px"><span class="price">&#8377;' + p.price.toLocaleString() + '</span>' +
+                        (p.originalPrice ? '<span class="original-price">&#8377;' + p.originalPrice.toLocaleString() + '</span>' : '') +
+                        '</div>' +
+                        '<div class="card-actions">' +
+                        '<button class="btn btn-primary btn-sm" style="flex:1" onclick="Cart.add(' + pJson + ')">&#128722; Add to Cart</button>' +
+                        '<a href="/shop?id=' + p._id + '" class="btn btn-outline btn-sm">View</a>' +
+                        '</div></div></div>'
+                }).join('')
+            } catch (e) {
+                document.getElementById('featured-products').innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Could not load products.</p>'
+            }
+        }
+        async function seedDatabase(btn) {
+            if (btn) { btn.disabled = true; btn.textContent = '⏳ Seeding Products...' }
+            try {
+                const res = await API.get('/products/seed')
+                showToast(res.message || '✅ Products seeded successfully!', 'success')
+                setTimeout(() => window.location.reload(), 1000)
+            } catch (err) {
+                showToast('Error seeding products: ' + err.message, 'error')
+                if (btn) { btn.disabled = false; btn.textContent = '✨ Seed 36 Sample Products' }
+            }
+        }
+        loadFeatured()
+    </script>
 </body>
+
 </html>
