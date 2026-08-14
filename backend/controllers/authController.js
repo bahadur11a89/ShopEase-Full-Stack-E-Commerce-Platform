@@ -1,19 +1,22 @@
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 
-const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' })
+const JWT_SECRET = process.env.JWT_SECRET || 'shopease_super_secret_key_2026'
+const generateToken = (id) => jwt.sign({ id }, JWT_SECRET, { expiresIn: '7d' })
 
 const register = async (req, res) => {
     try {
         const { name, email, password } = req.body
-        if (!name || !email || !password) return res.status(400).json({ message: 'All fields required' })
+        if (!name || !email || !password) return res.status(400).json({ message: 'All fields (Name, Email, Password) are required' })
+        if (password.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters long' })
         const normalizedEmail = email.toLowerCase().trim()
         const exists = await User.findOne({ email: normalizedEmail })
-        if (exists) return res.status(400).json({ message: 'Email already registered' })
+        if (exists) return res.status(400).json({ message: 'Email is already registered! Please login instead.' })
         const user = await User.create({ name: name.trim(), email: normalizedEmail, password })
         res.status(201).json({ _id: user._id, name: user.name, email: user.email, role: user.role, token: generateToken(user._id) })
     } catch (err) {
-        res.status(500).json({ message: err.message })
+        console.error('Register Error:', err.message)
+        res.status(500).json({ message: err.message || 'Registration failed' })
     }
 }
 
