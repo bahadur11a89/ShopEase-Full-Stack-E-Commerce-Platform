@@ -10,7 +10,24 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 const app = express()
 
 // Middleware
-app.use(cors())
+const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:5000',
+    process.env.CLIENT_URL
+].filter(Boolean)
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+            callback(null, true)
+        } else {
+            callback(null, true)
+        }
+    },
+    credentials: true
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -44,6 +61,14 @@ mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 5000 })
 
 // ===== API Routes =====
 app.use('/api', connectDB)
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        message: 'ShopEase API is running smoothly 🚀',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    })
+})
 app.use('/api/auth', require('./routes/authRoutes'))
 app.use('/api/products', require('./routes/productRoutes'))
 app.use('/api/cart', require('./routes/cartRoutes'))
