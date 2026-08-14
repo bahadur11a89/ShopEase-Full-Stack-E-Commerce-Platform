@@ -30,8 +30,11 @@ const createOrder = async (req, res) => {
         const productIds = Array.from(consolidatedMap.keys())
         const dbProducts = await Product.find({ _id: { $in: productIds } })
 
+        if (dbProducts.length === 0) {
+            return res.status(404).json({ message: 'The items in your cart are from a previous session. Please clear your cart and re-add items.' })
+        }
         if (dbProducts.length !== productIds.length) {
-            return res.status(404).json({ message: 'One or more products no longer exist' })
+            return res.status(404).json({ message: 'One or more items in your cart are no longer available. Please clear your cart and re-add items from the shop.' })
         }
 
         // 3. Validate Stock & Calculate Server-Side Subtotal

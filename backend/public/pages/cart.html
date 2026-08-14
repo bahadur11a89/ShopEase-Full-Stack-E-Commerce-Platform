@@ -1,147 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShopEase | Cart</title>
-<link rel="stylesheet" href="/css/style.css">
-<style>
-.cart-layout { width: 90%; margin: 40px auto; display: grid; grid-template-columns: 1fr 360px; gap: 30px; }
-.cart-items { background: #fff; border-radius: 12px; padding: 25px; box-shadow: var(--shadow); }
-.cart-items h2 { font-size: 22px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0; }
-.cart-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid #f0f0f0; align-items: center; }
-.cart-item img { width: 90px; height: 90px; object-fit: cover; border-radius: 10px; }
-.cart-item-info { flex: 1; }
-.cart-item-info h3 { font-size: 16px; margin-bottom: 5px; }
-.cart-item-info .category { font-size: 12px; color: var(--secondary); }
-.cart-item-info .price { font-size: 18px; font-weight: 700; color: var(--primary); margin-top: 5px; }
-.qty-control { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-.qty-control button { width: 32px; height: 32px; border: 1.5px solid #ddd; background: #fff; border-radius: 6px; font-size: 18px; cursor: pointer; transition: .3s; }
-.qty-control button:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
-.qty-control span { font-size: 16px; font-weight: 600; min-width: 30px; text-align: center; }
-.remove-btn { background: none; border: none; color: var(--danger); font-size: 20px; cursor: pointer; padding: 5px; transition: .3s; }
-.remove-btn:hover { transform: scale(1.2); }
-.cart-summary { background: #fff; border-radius: 12px; padding: 25px; box-shadow: var(--shadow); height: fit-content; position: sticky; top: 90px; }
-.cart-summary h2 { font-size: 20px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0; }
-.summary-row { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 15px; }
-.summary-row.total { font-size: 18px; font-weight: 700; color: var(--primary); padding-top: 14px; border-top: 2px solid #f0f0f0; margin-top: 5px; }
-.coupon-box { display: flex; gap: 10px; margin: 20px 0; }
-.coupon-box input { flex: 1; padding: 10px 14px; border: 1.5px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
-.empty-cart { text-align: center; padding: 80px 20px; }
-.empty-cart .icon { font-size: 80px; margin-bottom: 20px; }
-/* Checkout Modal */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 9999; overflow-y: auto; padding: 20px; }
-.modal-box { background: #fff; border-radius: 16px; max-width: 520px; margin: 60px auto; padding: 35px; position: relative; }
-.modal-close { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 28px; cursor: pointer; color: #888; }
-.modal-close:hover { color: #333; }
-@media(max-width:768px) { .cart-layout { grid-template-columns: 1fr; } .cart-summary { position: static; } }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase | Cart</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .cart-layout {
+            width: 90%;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 30px;
+        }
+
+        .cart-items {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .cart-items h2 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-info .category {
+            font-size: 12px;
+            color: var(--secondary);
+        }
+
+        .cart-item-info .price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 5px;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .qty-control button {
+            width: 32px;
+            height: 32px;
+            border: 1.5px solid #ddd;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .qty-control button:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .qty-control span {
+            font-size: 16px;
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            transition: .3s;
+        }
+
+        .remove-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-summary {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .cart-summary h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            font-size: 15px;
+        }
+
+        .summary-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            padding-top: 14px;
+            border-top: 2px solid #f0f0f0;
+            margin-top: 5px;
+        }
+
+        .coupon-box {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .coupon-box input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-cart .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        /* Checkout Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 520px;
+            margin: 60px auto;
+            padding: 35px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        @media(max-width:768px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                position: static;
+            }
+
+            .modal-box {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+
+        @media(max-width:480px) {
+            .cart-item {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .cart-item img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .qty-control {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<header>
-<nav>
-    <a href="/" class="logo">Shop<span>Ease</span></a>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/shop">Shop</a></li>
-        <li><a href="/cart" class="active">🛒 Cart <span class="cart-count" id="cart-count" style="display:none">0</span></a></li>
-        <li id="nav-login"><a href="/login" class="nav-btn">Login</a></li>
-        <li id="nav-user" style="display:none"></li>
-    </ul>
-</nav>
-</header>
+    <header>
+        <nav>
+            <a href="/" class="logo">Shop<span>Ease</span></a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/gallery">Gallery</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/cart" class="cart-icon active">🛒 Cart <span class="cart-count" id="cart-count"
+                            style="display:none">0</span></a></li>
+                <li id="nav-login"><a href="/login" class="nav-btn">Login</a></li>
+                <li id="nav-user" style="display:none"></li>
+            </ul>
+        </nav>
+    </header>
 
-<div class="breadcrumb"><div class="breadcrumb-inner"><a href="/">Home</a> › Cart</div></div>
-
-<div class="cart-layout" id="cart-layout">
-    <div class="cart-items" id="cart-items-container">
-        <div class="loader"><div class="spinner"></div></div>
+    <div class="breadcrumb">
+        <div class="breadcrumb-inner"><a href="/">Home</a> › Cart</div>
     </div>
-    <div class="cart-summary" id="cart-summary">
-        <h2>Order Summary</h2>
-        <div class="summary-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
-        <div class="summary-row"><span>Shipping</span><span id="shipping">FREE</span></div>
-        <div class="summary-row"><span>Discount</span><span id="discount" style="color:var(--success)">-₹0</span></div>
-        <div class="summary-row total"><span>Total</span><span id="total">₹0</span></div>
-        <div class="coupon-box">
-            <input type="text" id="coupon-input" placeholder="Enter coupon code">
-            <button class="btn btn-outline btn-sm" onclick="applyCoupon()">Apply</button>
+
+    <div class="cart-layout" id="cart-layout">
+        <div class="cart-items" id="cart-items-container">
+            <div class="loader">
+                <div class="spinner"></div>
+            </div>
         </div>
-        <button class="btn btn-primary btn-block" onclick="checkout()" style="font-size:16px;padding:14px">Proceed to Checkout →</button>
-        <a href="/shop" class="btn btn-outline btn-block" style="margin-top:12px;text-align:center">← Continue Shopping</a>
-        <div style="margin-top:20px;text-align:center;font-size:13px;color:#888">
-            🔒 Secure Checkout &nbsp;|&nbsp; 🚚 Free Delivery above ₹499
+        <div class="cart-summary" id="cart-summary">
+            <h2>Order Summary</h2>
+            <div class="summary-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+            <div class="summary-row"><span>Shipping</span><span id="shipping">FREE</span></div>
+            <div class="summary-row"><span>Discount</span><span id="discount" style="color:var(--success)">-₹0</span>
+            </div>
+            <div class="summary-row total"><span>Total</span><span id="total">₹0</span></div>
+            <div class="coupon-box">
+                <input type="text" id="coupon-input" placeholder="Enter coupon code">
+                <button class="btn btn-outline btn-sm" onclick="applyCoupon()">Apply</button>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="checkout()" style="font-size:16px;padding:14px">Proceed
+                to Checkout →</button>
+            <a href="/shop" class="btn btn-outline btn-block" style="margin-top:12px;text-align:center">← Continue
+                Shopping</a>
+            <div style="margin-top:20px;text-align:center;font-size:13px;color:#888">
+                🔒 Secure Checkout &nbsp;|&nbsp; 🚚 Free Delivery above ₹499
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Checkout Modal -->
-<div class="modal-overlay" id="checkout-modal">
-    <div class="modal-box">
-        <button class="modal-close" onclick="closeCheckout()">✕</button>
-        <h2 style="margin-bottom:5px">📦 Shipping Details</h2>
-        <p style="color:#888;font-size:14px;margin-bottom:25px">Enter your delivery address</p>
-        <div id="checkout-alert"></div>
-        <form onsubmit="placeOrder(event)">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="sh-name" placeholder="Rahul Sharma" required>
-            </div>
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="tel" id="sh-phone" placeholder="+91 9648388196" required>
-            </div>
-            <div class="form-group">
-                <label>Address</label>
-                <input type="text" id="sh-address" placeholder="House No, Street, Area" required>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeCheckout()">✕</button>
+            <h2 style="margin-bottom:5px">📦 Shipping Details</h2>
+            <p style="color:#888;font-size:14px;margin-bottom:25px">Enter your delivery address</p>
+            <div id="checkout-alert"></div>
+            <form onsubmit="placeOrder(event)">
                 <div class="form-group">
-                    <label>City</label>
-                    <input type="text" id="sh-city" placeholder="Lucknow" required>
+                    <label>Full Name</label>
+                    <input type="text" id="sh-name" placeholder="Rahul Sharma" required>
                 </div>
                 <div class="form-group">
-                    <label>Pincode</label>
-                    <input type="text" id="sh-pincode" placeholder="226001" required pattern="[0-9]{6}">
+                    <label>Phone Number</label>
+                    <input type="tel" id="sh-phone" placeholder="+91 9648388196" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="sh-address" placeholder="House No, Street, Area" required>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="sh-city" placeholder="Lucknow" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pincode</label>
+                        <input type="text" id="sh-pincode" placeholder="226001" required pattern="[0-9]{6}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="sh-payment">
+                        <option value="COD">💵 Cash on Delivery</option>
+                        <option value="UPI">📱 UPI</option>
+                        <option value="Card">💳 Credit/Debit Card</option>
+                        <option value="NetBanking">🏦 Net Banking</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="place-btn"
+                    style="font-size:16px;padding:14px;margin-top:10px">
+                    ✅ Place Order
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-col">
+                <h4>ShopEase</h4>
+                <p>India's most trusted online shopping destination. Quality products, best prices, fast delivery.</p>
+                <div class="social-links">
+                    <a href="https://github.com/bahadur11a89" target="_blank" title="GitHub" class="github"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/raj-bahadur11" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://youtube.com/@bahadur11a89" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Payment Method</label>
-                <select id="sh-payment">
-                    <option value="COD">💵 Cash on Delivery</option>
-                    <option value="UPI">📱 UPI</option>
-                    <option value="Card">💳 Credit/Debit Card</option>
-                    <option value="NetBanking">🏦 Net Banking</option>
-                </select>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="/">Home</a><a href="/shop">Shop</a><a href="/about">About Us</a>
+                <a href="/services">Services</a><a href="/contact">Contact</a>
             </div>
-            <button type="submit" class="btn btn-primary btn-block" id="place-btn" style="font-size:16px;padding:14px;margin-top:10px">
-                ✅ Place Order
-            </button>
-        </form>
-    </div>
-</div>
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <a href="/shop?category=Electronics">Electronics</a>
+                <a href="/shop?category=Fashion">Fashion</a>
+                <a href="/shop?category=Footwear">Footwear</a>
+                <a href="/shop?category=Accessories">Accessories</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p>📍 Lucknow, Uttar Pradesh, India</p>
+                <p>📞 +91 9648388196</p>
+                <p>📧 bahadur11a89@gmail.com</p>
+                <p>🕐 Mon-Sat: 9AM - 6PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 ShopEase. All Rights Reserved. | Made with ❤️ in India</p>
+        </div>
+    </footer>
 
-<footer><div class="footer-bottom"><p>© 2026 ShopEase. All Rights Reserved.</p></div></footer>
+    <div id="toast" class="toast"></div>
+    <script src="/js/app.js"></script>
+    <script>
+        let discount = 0
+        let discountAmt = 0
+        const coupons = { 'SAVE10': 10, 'SHOPEASE20': 20, 'FIRST50': 50 }
 
-<div id="toast" class="toast"></div>
-<script src="/js/app.js"></script>
-<script>
-let discount = 0
-let discountAmt = 0
-const coupons = { 'SAVE10': 10, 'SHOPEASE20': 20, 'FIRST50': 50 }
+        function renderCart() {
+            const cart = Cart.get()
+            const container = document.getElementById('cart-items-container')
 
-function renderCart() {
-    const cart = Cart.get()
-    const container = document.getElementById('cart-items-container')
+            if (!cart.length) {
+                container.innerHTML = `<div class="empty-cart"><div class="icon">🛒</div><h2>Your cart is empty!</h2><p style="color:#888;margin:15px 0">Looks like you haven't added anything yet.</p><a href="/shop" class="btn btn-primary">Start Shopping →</a></div>`
+                document.getElementById('cart-summary').style.display = 'none'
+                return
+            }
 
-    if (!cart.length) {
-        container.innerHTML = `<div class="empty-cart"><div class="icon">🛒</div><h2>Your cart is empty!</h2><p style="color:#888;margin:15px 0">Looks like you haven't added anything yet.</p><a href="/shop" class="btn btn-primary">Start Shopping →</a></div>`
-        document.getElementById('cart-summary').style.display = 'none'
-        return
-    }
-
-    document.getElementById('cart-summary').style.display = 'block'
-    container.innerHTML = `
+            document.getElementById('cart-summary').style.display = 'block'
+            container.innerHTML = `
         <h2>🛒 My Cart (${cart.length} items)</h2>
         ${cart.map(item => `
         <div class="cart-item">
@@ -164,122 +412,130 @@ function renderCart() {
             <a href="/shop" class="btn btn-outline btn-sm">← Continue Shopping</a>
         </div>`
 
-    updateSummary()
-}
-
-function updateSummary() {
-    const subtotal = Cart.total()
-    const shipping = subtotal >= 499 ? 0 : 49
-    discountAmt = Math.round(subtotal * discount / 100)
-    const total = subtotal + shipping - discountAmt
-
-    document.getElementById('subtotal').textContent = `₹${subtotal.toLocaleString()}`
-    document.getElementById('shipping').textContent = shipping === 0 ? 'FREE 🎉' : `₹${shipping}`
-    document.getElementById('discount').textContent = `-₹${discountAmt.toLocaleString()}`
-    document.getElementById('total').textContent = `₹${total.toLocaleString()}`
-}
-
-function changeQty(id, qty) {
-    if (qty <= 0) return removeItem(id)
-    Cart.updateQty(id, qty)
-    renderCart()
-}
-
-function removeItem(id) {
-    Cart.remove(id)
-    renderCart()
-    showToast('Item removed from cart', 'error')
-}
-
-function clearCart() {
-    if (confirm('Clear entire cart?')) { Cart.clear(); renderCart(); showToast('Cart cleared') }
-}
-
-function applyCoupon() {
-    const code = document.getElementById('coupon-input').value.trim().toUpperCase()
-    if (coupons[code]) {
-        discount = coupons[code]
-        showToast(`🎉 Coupon applied! ${discount}% off`, 'success')
-        updateSummary()
-    } else {
-        showToast('Invalid coupon code', 'error')
-    }
-}
-
-function checkout() {
-    if (!Auth.isLoggedIn()) {
-        showToast('Please login to checkout', 'error')
-        setTimeout(() => window.location.href = '/login', 1500)
-        return
-    }
-    if (!Cart.get().length) { showToast('Cart is empty!', 'error'); return }
-    // Pre-fill name from logged in user
-    const user = Auth.getUser()
-    if (user) document.getElementById('sh-name').value = user.name || ''
-    document.getElementById('checkout-modal').style.display = 'block'
-    document.body.style.overflow = 'hidden'
-}
-
-function closeCheckout() {
-    document.getElementById('checkout-modal').style.display = 'none'
-    document.body.style.overflow = ''
-}
-
-async function placeOrder(e) {
-    e.preventDefault()
-    const btn = document.getElementById('place-btn')
-    btn.textContent = 'Placing Order...'
-    btn.disabled = true
-
-    const subtotal = Cart.total()
-    const shipping = subtotal >= 499 ? 0 : 49
-    const totalPrice = subtotal + shipping - discountAmt
-
-    const orderData = {
-        items: Cart.get().map(i => ({
-            product: i._id,
-            name: i.name,
-            image: i.image,
-            price: i.price,
-            qty: i.qty
-        })),
-        shippingAddress: {
-            name: document.getElementById('sh-name').value,
-            phone: document.getElementById('sh-phone').value,
-            address: document.getElementById('sh-address').value,
-            city: document.getElementById('sh-city').value,
-            pincode: document.getElementById('sh-pincode').value
-        },
-        paymentMethod: document.getElementById('sh-payment').value,
-        totalPrice
-    }
-
-    try {
-        const data = await API.post('/orders', orderData)
-        if (data._id) {
-            closeCheckout()
-            Cart.clear()
-            renderCart()
-            showToast('🎉 Order placed successfully! Thank you for shopping.', 'success')
-            setTimeout(() => window.location.href = '/', 2500)
-        } else {
-            document.getElementById('checkout-alert').innerHTML = `<div class="alert alert-danger">❌ ${data.message || 'Order failed. Try again.'}</div>`
-            btn.textContent = '✅ Place Order'
-            btn.disabled = false
+            updateSummary()
         }
-    } catch {
-        document.getElementById('checkout-alert').innerHTML = `<div class="alert alert-danger">❌ Server error. Please try again.</div>`
-        btn.textContent = '✅ Place Order'
-        btn.disabled = false
-    }
-}
 
-// Close modal on overlay click
-document.getElementById('checkout-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeCheckout()
-})
+        function updateSummary() {
+            const subtotal = Cart.total()
+            const shipping = subtotal >= 499 ? 0 : 49
+            discountAmt = Math.round(subtotal * discount / 100)
+            const total = subtotal + shipping - discountAmt
 
-renderCart()
-</script>
+            document.getElementById('subtotal').textContent = `₹${subtotal.toLocaleString()}`
+            document.getElementById('shipping').textContent = shipping === 0 ? 'FREE 🎉' : `₹${shipping}`
+            document.getElementById('discount').textContent = `-₹${discountAmt.toLocaleString()}`
+            document.getElementById('total').textContent = `₹${total.toLocaleString()}`
+        }
+
+        function changeQty(id, qty) {
+            if (qty <= 0) return removeItem(id)
+            Cart.updateQty(id, qty)
+            renderCart()
+        }
+
+        function removeItem(id) {
+            Cart.remove(id)
+            renderCart()
+            showToast('Item removed from cart', 'error')
+        }
+
+        function clearCart() {
+            if (confirm('Clear entire cart?')) { Cart.clear(); renderCart(); showToast('Cart cleared') }
+        }
+
+        let currentCouponCode = ''
+        function applyCoupon() {
+            const code = document.getElementById('coupon-input').value.trim().toUpperCase()
+            if (coupons[code]) {
+                discount = coupons[code]
+                currentCouponCode = code
+                showToast(`🎉 Coupon applied! ${discount}% off`, 'success')
+                updateSummary()
+            } else {
+                showToast('Invalid coupon code', 'error')
+            }
+        }
+
+        function checkout() {
+            if (!Auth.isLoggedIn()) {
+                showToast('Please login to checkout', 'error')
+                setTimeout(() => window.location.href = '/login', 1500)
+                return
+            }
+            if (!Cart.get().length) { showToast('Cart is empty!', 'error'); return }
+            // Pre-fill name from logged in user
+            const user = Auth.getUser()
+            if (user) document.getElementById('sh-name').value = user.name || ''
+            document.getElementById('checkout-modal').style.display = 'block'
+            document.body.style.overflow = 'hidden'
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-modal').style.display = 'none'
+            document.body.style.overflow = ''
+        }
+
+        async function placeOrder(e) {
+            e.preventDefault()
+            const btn = document.getElementById('place-btn')
+            btn.textContent = 'Placing Order...'
+            btn.disabled = true
+
+            const subtotal = Cart.total()
+            const shipping = subtotal >= 499 ? 0 : 49
+            const totalPrice = subtotal + shipping - discountAmt
+
+            const orderData = {
+                items: Cart.get().map(i => ({
+                    product: i._id,
+                    name: i.name,
+                    image: i.image,
+                    price: i.price,
+                    qty: i.qty
+                })),
+                shippingAddress: {
+                    name: document.getElementById('sh-name').value,
+                    phone: document.getElementById('sh-phone').value,
+                    address: document.getElementById('sh-address').value,
+                    city: document.getElementById('sh-city').value,
+                    pincode: document.getElementById('sh-pincode').value
+                },
+                paymentMethod: document.getElementById('sh-payment').value,
+                couponCode: discount > 0 ? (currentCouponCode || document.getElementById('coupon-input')?.value?.trim()?.toUpperCase()) : undefined,
+                totalPrice
+            }
+
+            try {
+                const data = await API.post('/orders', orderData)
+                if (data._id) {
+                    closeCheckout()
+                    Cart.clear()
+                    renderCart()
+                    showToast('🎉 Order placed successfully! Thank you for shopping.', 'success')
+                    setTimeout(() => window.location.href = '/', 2500)
+                } else {
+                    if (data.message && (data.message.includes('no longer') || data.message.includes('previous session'))) {
+                        document.getElementById('checkout-alert').innerHTML = `<div class="alert alert-danger" style="display:flex;flex-direction:column;gap:10px"><span>❌ ${data.message}</span><button type="button" class="btn btn-primary btn-sm" onclick="Cart.clear();closeCheckout();window.location.href='/shop';">🗑️ Clear Outdated Cart & Go to Shop</button></div>`
+                    } else {
+                        document.getElementById('checkout-alert').innerHTML = `<div class="alert alert-danger">❌ ${data.message || 'Order failed. Try again.'}</div>`
+                    }
+                    btn.textContent = '✅ Place Order'
+                    btn.disabled = false
+                }
+            } catch (err) {
+                document.getElementById('checkout-alert').innerHTML = `<div class="alert alert-danger">❌ ${err.message || 'Server error. Please try again.'}</div>`
+                btn.textContent = '✅ Place Order'
+                btn.disabled = false
+            }
+        }
+
+        // Close modal on overlay click
+        document.getElementById('checkout-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeCheckout()
+        })
+
+        renderCart()
+    </script>
 </body>
+
 </html>

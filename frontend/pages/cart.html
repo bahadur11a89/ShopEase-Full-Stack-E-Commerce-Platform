@@ -514,7 +514,11 @@
                     showToast('🎉 Order placed successfully! Thank you for shopping.', 'success')
                     setTimeout(() => window.location.href = '/', 2500)
                 } else {
-                    document.getElementById('checkout-alert').innerHTML = `<div class="alert alert-danger">❌ ${data.message || 'Order failed. Try again.'}</div>`
+                    if (data.message && (data.message.includes('no longer') || data.message.includes('previous session'))) {
+                        document.getElementById('checkout-alert').innerHTML = `<div class="alert alert-danger" style="display:flex;flex-direction:column;gap:10px"><span>❌ ${data.message}</span><button type="button" class="btn btn-primary btn-sm" onclick="Cart.clear();closeCheckout();window.location.href='/shop';">🗑️ Clear Outdated Cart & Go to Shop</button></div>`
+                    } else {
+                        document.getElementById('checkout-alert').innerHTML = `<div class="alert alert-danger">❌ ${data.message || 'Order failed. Try again.'}</div>`
+                    }
                     btn.textContent = '✅ Place Order'
                     btn.disabled = false
                 }
