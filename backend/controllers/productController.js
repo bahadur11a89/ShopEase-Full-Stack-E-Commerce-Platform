@@ -58,8 +58,21 @@ const sampleProducts = [
     { name: 'Whey Protein 2kg', description: 'MuscleBlaze Whey Gold 2kg, 25g protein per serving, chocolate flavor, 66 servings.', price: 3499, originalPrice: 4999, category: 'Sports', image: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=600', stock: 50, rating: 4.6, numReviews: 567, featured: true }
 ]
 
+const ensureProductsExist = async () => {
+    try {
+        const count = await Product.countDocuments()
+        if (count === 0) {
+            console.log('🌱 No products found in database. Auto-seeding sample products...')
+            await Product.insertMany(sampleProducts)
+        }
+    } catch (err) {
+        console.error('Auto-seed error:', err.message)
+    }
+}
+
 const getAllProducts = async (req, res) => {
     try {
+        await ensureProductsExist()
         const { category, search, sort, page = 1, limit = 8 } = req.query
         let query = {}
         if (category) query.category = category
@@ -82,6 +95,7 @@ const getAllProducts = async (req, res) => {
 
 const getFeaturedProducts = async (req, res) => {
     try {
+        await ensureProductsExist()
         const products = await Product.find({ featured: true }).limit(8)
         res.json(products)
     } catch (err) {
