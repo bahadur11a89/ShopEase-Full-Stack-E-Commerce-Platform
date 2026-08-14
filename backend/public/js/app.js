@@ -3,12 +3,25 @@ const Cart = {
     get: () => JSON.parse(localStorage.getItem('cart') || '[]'),
     save: (cart) => { localStorage.setItem('cart', JSON.stringify(cart)); Cart.updateCount(); },
     add: (product) => {
+        if (!product || !product._id) return showToast('Invalid product', 'error')
         const cart = Cart.get()
         const existing = cart.find(i => i._id === product._id)
         if (existing) existing.qty += 1
         else cart.push({ ...product, qty: 1 })
         Cart.save(cart)
         showToast(`${product.name} added to cart! 🛒`, 'success')
+    },
+    addById: async (id) => {
+        let product = (window._productRegistry && window._productRegistry[id]) ? window._productRegistry[id] : null
+        if (!product) {
+            const data = await API.get(`/products/${id}`)
+            if (data && data._id) product = data
+        }
+        if (product) {
+            Cart.add(product)
+        } else {
+            showToast('Could not add item to cart', 'error')
+        }
     },
     remove: (id) => { Cart.save(Cart.get().filter(i => i._id !== id)) },
     updateQty: (id, qty) => {
@@ -21,12 +34,26 @@ const Cart = {
     total: () => Cart.get().reduce((acc, i) => acc + i.price * i.qty, 0),
     count: () => Cart.get().reduce((acc, i) => acc + i.qty, 0),
     updateCount: () => {
+        const c = Cart.count()
         const el = document.getElementById('cart-count')
         if (el) {
-            const c = Cart.count()
             el.textContent = c
             el.style.display = c > 0 ? 'flex' : 'none'
         }
+        const mEl = document.getElementById('mobile-cart-count')
+        if (mEl) {
+            mEl.textContent = c
+            mEl.style.display = c > 0 ? 'inline-block' : 'none'
+        }
+    }
+}
+
+function registerProducts(products) {
+    if (!window._productRegistry) window._productRegistry = {}
+    if (Array.isArray(products)) {
+        products.forEach(p => { if (p && p._id) window._productRegistry[p._id] = p })
+    } else if (products && products._id) {
+        window._productRegistry[products._id] = products
     }
 }
 
@@ -47,7 +74,6 @@ const Auth = {
         if (user && loginLink && userMenu) {
             loginLink.style.display = 'none'
             userMenu.style.display = 'block'
-            // Build dropdown
             const firstName = user.name.split(' ')[0]
             const isAdmin = user.role === 'admin'
             userMenu.innerHTML = `
@@ -68,6 +94,96 @@ const Auth = {
     }
 }
 
+// ===== LAYOUT & MOBILE NAVIGATION DRAWER =====
+const Layout = {
+    init: () => {
+        Layout.ensureMobileDrawer()
+        Cart.updateCount()
+        Auth.updateNavbar()
+        Layout.highlightActiveNav()
+    },
+    ensureMobileDrawer: () => {
+        if (!document.getElementById('mobile-drawer')) {
+            const drawer = document.createElement('div')
+            drawer.id = 'mobile-drawer'
+            drawer.className = 'mobile-drawer'
+            
+            const user = Auth.getUser()
+            const firstName = user ? user.name.split(' ')[0] : ''
+            const isAdmin = user?.role === 'admin'
+
+            drawer.innerHTML = `
+                <div class="mobile-drawer-header">
+                    <a href="/" class="logo">Shop<span>Ease</span></a>
+                    <button class="mobile-drawer-close" onclick="Layout.closeDrawer()">✕</button>
+                </div>
+                <div class="mobile-drawer-body">
+                    <a href="/">🏠 Home</a>
+                    <a href="/shop">🛍️ Shop</a>
+                    <a href="/about">ℹ️ About Us</a>
+                    <a href="/services">⚡ Services</a>
+                    <a href="/gallery">🖼️ Gallery</a>
+                    <a href="/contact">📞 Contact Us</a>
+                    <a href="/cart">🛒 Cart <span id="mobile-cart-count" style="background:var(--danger);color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;display:none">0</span></a>
+                    <div class="mobile-drawer-divider"></div>
+                    ${user ? `
+                        <a href="/profile">👤 My Profile (${firstName})</a>
+                        ${isAdmin ? '<a href="/admin">⚙️ Admin Panel</a>' : ''}
+                        <a href="#" onclick="Auth.logout();return false;" style="color:#dc3545">🚪 Logout</a>
+                    ` : `
+                        <a href="/login" style="color:#ffc107;font-weight:700">🔑 Login</a>
+                        <a href="/register">🚀 Register</a>
+                    `}
+                </div>`
+            document.body.appendChild(drawer)
+        }
+
+        if (!document.getElementById('mobile-overlay')) {
+            const overlay = document.createElement('div')
+            overlay.id = 'mobile-overlay'
+            overlay.className = 'mobile-overlay'
+            overlay.onclick = () => Layout.closeDrawer()
+            document.body.appendChild(overlay)
+        }
+
+        const nav = document.querySelector('header nav')
+        if (nav && !document.getElementById('hamburger-btn')) {
+            const btn = document.createElement('button')
+            btn.id = 'hamburger-btn'
+            btn.className = 'hamburger-btn'
+            btn.innerHTML = '☰'
+            btn.title = 'Open Menu'
+            btn.onclick = () => Layout.toggleDrawer()
+            nav.insertBefore(btn, nav.firstChild)
+        }
+    },
+    toggleDrawer: () => {
+        const drawer = document.getElementById('mobile-drawer')
+        const overlay = document.getElementById('mobile-overlay')
+        if (drawer && overlay) {
+            drawer.classList.toggle('open')
+            overlay.classList.toggle('show')
+        }
+    },
+    closeDrawer: () => {
+        const drawer = document.getElementById('mobile-drawer')
+        const overlay = document.getElementById('mobile-overlay')
+        if (drawer && overlay) {
+            drawer.classList.remove('open')
+            overlay.classList.remove('show')
+        }
+    },
+    highlightActiveNav: () => {
+        const path = window.location.pathname
+        document.querySelectorAll('header nav ul li a, .mobile-drawer-body a').forEach(a => {
+            const href = a.getAttribute('href')
+            if (href === path || (path === '/' && href === '/') || (href !== '/' && path.startsWith(href))) {
+                if (!a.classList.contains('nav-btn')) a.classList.add('active')
+            }
+        })
+    }
+}
+
 // ===== API =====
 const API = {
     base: '/api',
@@ -75,10 +191,34 @@ const API = {
         'Content-Type': 'application/json',
         ...(Auth.getToken() ? { Authorization: `Bearer ${Auth.getToken()}` } : {})
     }),
-    get: (url) => fetch(API.base + url, { headers: API.headers() }).then(r => r.json()),
-    post: (url, data) => fetch(API.base + url, { method: 'POST', headers: API.headers(), body: JSON.stringify(data) }).then(r => r.json()),
-    put: (url, data) => fetch(API.base + url, { method: 'PUT', headers: API.headers(), body: JSON.stringify(data) }).then(r => r.json()),
-    delete: (url) => fetch(API.base + url, { method: 'DELETE', headers: API.headers() }).then(r => r.json())
+    request: async (url, options = {}) => {
+        try {
+            const res = await fetch(API.base + url, {
+                ...options,
+                headers: { ...API.headers(), ...(options.headers || {}) }
+            })
+            const contentType = res.headers.get('content-type') || ''
+            let data
+            if (contentType.includes('application/json')) {
+                data = await res.json()
+            } else {
+                const text = await res.text()
+                data = { status: res.status, message: text || `HTTP ${res.status} ${res.statusText}`, ok: false }
+            }
+            if (!res.ok && typeof data === 'object' && data !== null) {
+                if (!data.message) data.message = `HTTP ${res.status}: ${res.statusText}`
+                data.ok = false
+                data.status = res.status
+            }
+            return data
+        } catch (err) {
+            return { ok: false, status: 0, message: err.message || 'Network Error' }
+        }
+    },
+    get: (url) => API.request(url, { method: 'GET' }),
+    post: (url, data) => API.request(url, { method: 'POST', body: JSON.stringify(data) }),
+    put: (url, data) => API.request(url, { method: 'PUT', body: JSON.stringify(data) }),
+    delete: (url) => API.request(url, { method: 'DELETE' })
 }
 
 // ===== TOAST =====
@@ -109,8 +249,7 @@ function calcDiscount(price, original) {
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
-    Cart.updateCount()
-    Auth.updateNavbar()
+    Layout.init()
 
     // Close dropdown on outside click
     document.addEventListener('click', (e) => {

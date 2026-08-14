@@ -3,12 +3,25 @@ const Cart = {
     get: () => JSON.parse(localStorage.getItem('cart') || '[]'),
     save: (cart) => { localStorage.setItem('cart', JSON.stringify(cart)); Cart.updateCount(); },
     add: (product) => {
+        if (!product || !product._id) return showToast('Invalid product', 'error')
         const cart = Cart.get()
         const existing = cart.find(i => i._id === product._id)
         if (existing) existing.qty += 1
         else cart.push({ ...product, qty: 1 })
         Cart.save(cart)
         showToast(`${product.name} added to cart! 🛒`, 'success')
+    },
+    addById: async (id) => {
+        let product = (window._productRegistry && window._productRegistry[id]) ? window._productRegistry[id] : null
+        if (!product) {
+            const data = await API.get(`/products/${id}`)
+            if (data && data._id) product = data
+        }
+        if (product) {
+            Cart.add(product)
+        } else {
+            showToast('Could not add item to cart', 'error')
+        }
     },
     remove: (id) => { Cart.save(Cart.get().filter(i => i._id !== id)) },
     updateQty: (id, qty) => {
@@ -32,6 +45,15 @@ const Cart = {
             mEl.textContent = c
             mEl.style.display = c > 0 ? 'inline-block' : 'none'
         }
+    }
+}
+
+function registerProducts(products) {
+    if (!window._productRegistry) window._productRegistry = {}
+    if (Array.isArray(products)) {
+        products.forEach(p => { if (p && p._id) window._productRegistry[p._id] = p })
+    } else if (products && products._id) {
+        window._productRegistry[products._id] = products
     }
 }
 

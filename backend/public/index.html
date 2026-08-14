@@ -451,7 +451,7 @@
                 </div>
             </div>
             <div class="hero-img">
-                <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800" alt="Shopping" referrerpolicy="no-referrer">
+                <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800" alt="Shopping">
             </div>
         </div>
     </section>
@@ -604,7 +604,7 @@
                 <p>Amazing shopping experience! Got my order in just 2 days. The product quality is excellent and
                     packaging was perfect.</p>
                 <div class="author">
-                    <img src="https://i.pravatar.cc/48?img=1" alt="" referrerpolicy="no-referrer">
+                    <img src="https://i.pravatar.cc/48?img=1" alt="">
                     <div>
                         <h4>Rahul Sharma</h4><span>⭐⭐⭐⭐⭐ Delhi</span>
                     </div>
@@ -615,7 +615,7 @@
                 <p>Best prices I've found online. The return process was super easy when I needed to exchange a size.
                     Highly recommend!</p>
                 <div class="author">
-                    <img src="https://i.pravatar.cc/48?img=5" alt="" referrerpolicy="no-referrer">
+                    <img src="https://i.pravatar.cc/48?img=5" alt="">
                     <div>
                         <h4>Priya Singh</h4><span>⭐⭐⭐⭐⭐ Mumbai</span>
                     </div>
@@ -626,7 +626,7 @@
                 <p>ShopEase has become my go-to for all online shopping. Great deals, fast delivery and excellent
                     customer service!</p>
                 <div class="author">
-                    <img src="https://i.pravatar.cc/48?img=8" alt="" referrerpolicy="no-referrer">
+                    <img src="https://i.pravatar.cc/48?img=8" alt="">
                     <div>
                         <h4>Amit Kumar</h4><span>⭐⭐⭐⭐⭐ Bangalore</span>
                     </div>
@@ -718,9 +718,9 @@
                     container.innerHTML = '<div style="text-align:center;padding:30px;grid-column:1/-1"><p style="color:#888;margin-bottom:15px;font-size:16px">🌱 No products found in database yet.</p><button class="btn btn-primary" onclick="seedDatabase(this)">✨ Seed 36 Sample Products</button></div>'
                     return
                 }
+                registerProducts(products)
                 container.innerHTML = products.map(function (p) {
                     const disc = p.originalPrice ? calcDiscount(p.price, p.originalPrice) : 0
-                    const pJson = JSON.stringify(p).replace(/'/g, '&#39;')
                     const svgFallback = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220'><rect width='300' height='220' fill='%231e293b'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-family='sans-serif' font-size='14'>" + encodeURIComponent(p.name) + "</text></svg>"
                     return '<div class="product-card">' +
                         (disc ? '<span class="badge">-' + disc + '%</span>' : '') +
@@ -733,7 +733,7 @@
                         (p.originalPrice ? '<span class="original-price">&#8377;' + p.originalPrice.toLocaleString() + '</span>' : '') +
                         '</div>' +
                         '<div class="card-actions">' +
-                        '<button class="btn btn-primary btn-sm" style="flex:1" onclick="Cart.add(' + pJson + ')">&#128722; Add to Cart</button>' +
+                        '<button class="btn btn-primary btn-sm" style="flex:1" onclick="Cart.addById(\'' + p._id + '\')">&#128722; Add to Cart</button>' +
                         '<a href="/shop?id=' + p._id + '" class="btn btn-outline btn-sm">View</a>' +
                         '</div></div></div>'
                 }).join('')
