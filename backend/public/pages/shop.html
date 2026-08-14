@@ -481,14 +481,19 @@
             page = page || 1
             currentPage = page
             const container = document.getElementById('products-container')
+            if (!container) return
             container.innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Loading products...</p>'
 
             try {
-                const search = document.getElementById('search-q').value.trim()
-                const sort = document.getElementById('sort-select').value
-                const cats = Array.from(document.querySelectorAll('.filter-group input:checked')).map(function (c) { return c.value })
-                const minP = document.getElementById('min-price').value
-                const maxP = document.getElementById('max-price').value
+                const searchEl = document.getElementById('search-q') || document.getElementById('search-input')
+                const search = searchEl ? searchEl.value.trim() : ''
+                const sortEl = document.getElementById('sort-select')
+                const sort = sortEl ? sortEl.value : ''
+                const cats = Array.from(document.querySelectorAll('.filter-group input[type=checkbox]:checked')).map(function (c) { return c.value })
+                const minPEl = document.getElementById('min-price')
+                const maxPEl = document.getElementById('max-price')
+                const minP = minPEl ? minPEl.value : ''
+                const maxP = maxPEl ? maxPEl.value : ''
 
                 let url = '/products?page=' + page + '&limit=9'
                 if (search) url += '&search=' + encodeURIComponent(search)
@@ -499,13 +504,15 @@
 
                 if (minP) products = products.filter(function (p) { return p.price >= +minP })
                 if (maxP) products = products.filter(function (p) { return p.price <= +maxP })
-                if (cats.length > 1) products = products.filter(function (p) { return cats.includes(p.category) })
+                if (cats.length > 0) products = products.filter(function (p) { return cats.includes(p.category) })
 
-                document.getElementById('results-info').textContent = 'Showing ' + products.length + ' of ' + data.total + ' products'
+                const resultsInfo = document.getElementById('results-info')
+                if (resultsInfo) resultsInfo.textContent = 'Showing ' + products.length + ' of ' + (data.total || products.length) + ' products'
 
                 if (!products.length) {
-                    document.getElementById('products-container').innerHTML = '<div class="no-products" style="grid-column:1/-1"><div class="icon">🔍</div><h3>No products found</h3><p style="margin-bottom:15px">Try different filters or click below to populate the catalog:</p><button class="btn btn-primary btn-sm" onclick="seedDatabase(this)">🌱 Seed Sample Products</button></div>'
-                    document.getElementById('pagination').innerHTML = ''
+                    container.innerHTML = '<div class="no-products" style="grid-column:1/-1"><div class="icon">🔍</div><h3>No products found</h3><p style="margin-bottom:15px">Try different filters or click below to populate the catalog:</p><button class="btn btn-primary btn-sm" onclick="seedDatabase(this)">🌱 Seed Sample Products</button></div>'
+                    const pagination = document.getElementById('pagination')
+                    if (pagination) pagination.innerHTML = ''
                     return
                 }
 
@@ -530,16 +537,18 @@
                         '</div></div></div>'
                 }).join('')
 
-                const pages = data.pages
+                const pages = data.pages || 1
                 let paginationHTML = ''
                 if (pages > 1) {
                     if (page > 1) paginationHTML += '<button onclick="loadProducts(' + (page - 1) + ')">← Prev</button>'
                     for (let i = 1; i <= pages; i++) paginationHTML += '<button class="' + (i === page ? 'active' : '') + '" onclick="loadProducts(' + i + ')">' + i + '</button>'
                     if (page < pages) paginationHTML += '<button onclick="loadProducts(' + (page + 1) + ')">Next →</button>'
                 }
-                document.getElementById('pagination').innerHTML = paginationHTML
+                const pagination = document.getElementById('pagination')
+                if (pagination) pagination.innerHTML = paginationHTML
             } catch (e) {
-                document.getElementById('products-container').innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Could not load products. Make sure server is running.</p>'
+                console.error(e)
+                container.innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1">Could not load products. Make sure server is running.</p>'
             }
         }
 
@@ -552,10 +561,14 @@
 
         function clearFilters() {
             document.querySelectorAll('.filter-group input[type=checkbox]').forEach(function (i) { i.checked = false })
-            document.getElementById('min-price').value = ''
-            document.getElementById('max-price').value = ''
-            document.getElementById('search-q').value = ''
-            document.getElementById('sort-select').value = ''
+            const minPEl = document.getElementById('min-price')
+            const maxPEl = document.getElementById('max-price')
+            const searchEl = document.getElementById('search-q') || document.getElementById('search-input')
+            const sortEl = document.getElementById('sort-select')
+            if (minPEl) minPEl.value = ''
+            if (maxPEl) maxPEl.value = ''
+            if (searchEl) searchEl.value = ''
+            if (sortEl) sortEl.value = ''
             loadProducts(1)
         }
 
@@ -563,7 +576,8 @@
         if (params.get('category')) {
             document.querySelectorAll('.filter-group input').forEach(function (i) { if (i.value === params.get('category')) i.checked = true })
         }
-        if (params.get('search')) document.getElementById('search-q').value = params.get('search')
+        const searchInputEl = document.getElementById('search-q') || document.getElementById('search-input')
+        if (params.get('search') && searchInputEl) searchInputEl.value = params.get('search')
 
         loadProducts(1)
 
