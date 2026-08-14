@@ -115,25 +115,45 @@ const Layout = {
             drawer.innerHTML = `
                 <div class="mobile-drawer-header">
                     <a href="/" class="logo">Shop<span>Ease</span></a>
-                    <button class="mobile-drawer-close" onclick="Layout.closeDrawer()">✕</button>
+                    <button class="mobile-drawer-close" onclick="Layout.closeDrawer()" aria-label="Close menu">✕</button>
                 </div>
+
+                ${user ? `
+                <div class="mobile-drawer-user">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-info">
+                        <div class="user-name">${user.name}</div>
+                        <div class="user-email">${user.email}</div>
+                        <span class="user-badge">${isAdmin ? '👑 Admin' : '🧑 Customer'}</span>
+                    </div>
+                </div>
+                ` : `
+                <div class="mobile-drawer-auth-box">
+                    <a href="/login" class="btn btn-warning btn-sm btn-block">🔑 Login to Account</a>
+                    <a href="/register" class="btn btn-outline btn-sm btn-block" style="color:#fff;border-color:rgba(255,255,255,0.3)">🚀 Register New Account</a>
+                </div>
+                `}
+
                 <div class="mobile-drawer-body">
-                    <a href="/">🏠 Home</a>
-                    <a href="/shop">🛍️ Shop</a>
-                    <a href="/about">ℹ️ About Us</a>
-                    <a href="/services">⚡ Services</a>
-                    <a href="/gallery">🖼️ Gallery</a>
-                    <a href="/contact">📞 Contact Us</a>
-                    <a href="/cart">🛒 Cart <span id="mobile-cart-count" style="background:var(--danger);color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;display:none">0</span></a>
+                    <a href="/" class="drawer-item"><span class="drawer-icon">🏠</span> Home</a>
+                    <a href="/shop" class="drawer-item"><span class="drawer-icon">🛍️</span> Shop Products</a>
+                    <a href="/about" class="drawer-item"><span class="drawer-icon">ℹ️</span> About Us</a>
+                    <a href="/services" class="drawer-item"><span class="drawer-icon">⚡</span> Our Services</a>
+                    <a href="/gallery" class="drawer-item"><span class="drawer-icon">🖼️</span> Photo Gallery</a>
+                    <a href="/contact" class="drawer-item"><span class="drawer-icon">📞</span> Contact Us</a>
+                    <a href="/cart" class="drawer-item" style="justify-content:space-between">
+                        <span><span class="drawer-icon">🛒</span> Shopping Cart</span>
+                        <span id="mobile-cart-count" class="cart-badge-pill" style="display:none">0</span>
+                    </a>
                     <div class="mobile-drawer-divider"></div>
                     ${user ? `
-                        <a href="/profile">👤 My Profile (${firstName})</a>
-                        ${isAdmin ? '<a href="/admin">⚙️ Admin Panel</a>' : ''}
-                        <a href="#" onclick="Auth.logout();return false;" style="color:#dc3545">🚪 Logout</a>
-                    ` : `
-                        <a href="/login" style="color:#ffc107;font-weight:700">🔑 Login</a>
-                        <a href="/register">🚀 Register</a>
-                    `}
+                        <a href="/profile" class="drawer-item"><span class="drawer-icon">👤</span> My Profile (${firstName})</a>
+                        ${isAdmin ? '<a href="/admin" class="drawer-item"><span class="drawer-icon">⚙️</span> Admin Dashboard</a>' : ''}
+                        <a href="#" onclick="Auth.logout();return false;" class="drawer-item" style="color:#ff6b6b"><span class="drawer-icon">🚪</span> Logout Account</a>
+                    ` : ''}
+                </div>
+                <div class="mobile-drawer-footer">
+                    <p>© 2026 ShopEase India | Fast & Secure 🚚</p>
                 </div>`
             document.body.appendChild(drawer)
         }
@@ -152,6 +172,7 @@ const Layout = {
             btn.id = 'hamburger-btn'
             btn.className = 'hamburger-btn'
             btn.innerHTML = '☰'
+            btn.setAttribute('aria-label', 'Toggle menu')
             btn.title = 'Open Menu'
             btn.onclick = () => Layout.toggleDrawer()
             nav.insertBefore(btn, nav.firstChild)
@@ -161,8 +182,14 @@ const Layout = {
         const drawer = document.getElementById('mobile-drawer')
         const overlay = document.getElementById('mobile-overlay')
         if (drawer && overlay) {
-            drawer.classList.toggle('open')
-            overlay.classList.toggle('show')
+            const isOpen = drawer.classList.contains('open')
+            if (isOpen) {
+                Layout.closeDrawer()
+            } else {
+                drawer.classList.add('open')
+                overlay.classList.add('show')
+                document.body.style.overflow = 'hidden'
+            }
         }
     },
     closeDrawer: () => {
@@ -171,13 +198,14 @@ const Layout = {
         if (drawer && overlay) {
             drawer.classList.remove('open')
             overlay.classList.remove('show')
+            document.body.style.overflow = ''
         }
     },
     highlightActiveNav: () => {
         const path = window.location.pathname
         document.querySelectorAll('header nav ul li a, .mobile-drawer-body a').forEach(a => {
             const href = a.getAttribute('href')
-            if (href === path || (path === '/' && href === '/') || (href !== '/' && path.startsWith(href))) {
+            if (href === path || (path === '/' && href === '/') || (href && href !== '/' && path.startsWith(href))) {
                 if (!a.classList.contains('nav-btn')) a.classList.add('active')
             }
         })
