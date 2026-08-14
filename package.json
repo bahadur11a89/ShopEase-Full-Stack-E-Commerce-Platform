@@ -1,0 +1,18 @@
+{
+  "name": "shopease-root",
+  "version": "2.0.0",
+  "description": "ShopEase Full-Stack Application",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "seed:admin": "node backend/seedAdmin.js"
+  },
+  "keywords": [
+    "shopease",
+    "ecommerce",
+    "fullstack"
+  ],
+  "author": "ShopEase Team",
+  "license": "ISC"
+}

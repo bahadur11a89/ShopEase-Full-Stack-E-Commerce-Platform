@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopEase | About Us</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+.about-hero { background: linear-gradient(135deg, #0d6efd, #084298); color: #fff; padding: 80px 0; text-align: center; }
+.about-hero h1 { font-size: 48px; margin-bottom: 15px; }
+.about-hero p { font-size: 18px; opacity: .9; max-width: 600px; margin: auto; }
+.about-section { width: 90%; margin: 70px auto; display: flex; gap: 60px; align-items: center; }
+.about-section.reverse { flex-direction: row-reverse; }
+.about-section img { width: 480px; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,.15); flex-shrink: 0; }
+.about-content h2 { font-size: 36px; color: var(--primary); margin-bottom: 20px; }
+.about-content p { color: #555; line-height: 1.8; font-size: 16px; margin-bottom: 15px; }
+.about-content ul { list-style: none; margin: 20px 0; }
+.about-content ul li { padding: 8px 0; color: #444; font-size: 15px; }
+.about-content ul li::before { content: '✅ '; }
+.team { width: 90%; margin: 70px auto; }
+.team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 50px; }
+.team-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); text-align: center; transition: .3s; }
+.team-card:hover { transform: translateY(-8px); }
+.team-card img { width: 100%; height: 220px; object-fit: cover; }
+.team-card h3 { font-size: 18px; margin: 15px 0 5px; }
+.team-card p { color: var(--secondary); font-size: 14px; margin-bottom: 15px; }
+.milestones { background: var(--primary); color: #fff; padding: 70px 0; }
+.milestones-inner { width: 90%; margin: auto; }
+.milestones-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; margin-top: 50px; text-align: center; }
+.milestone h2 { font-size: 42px; font-weight: 800; color: #ffc107; }
+.milestone p { opacity: .9; font-size: 15px; }
+@media(max-width:768px) { .about-section, .about-section.reverse { flex-direction: column; } .about-section img { width: 100%; } .about-hero h1 { font-size: 32px; } }
+</style>
+</head>
+<body>
+<header>
+<nav>
+    <a href="/" class="logo">Shop<span>Ease</span></a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/cart">🛒 Cart <span class="cart-count" id="cart-count" style="display:none">0</span></a></li>
+        <li id="nav-login"><a href="/login" class="nav-btn">Login</a></li>
+        <li id="nav-user" style="display:none"></li>
+    </ul>
+</nav>
+</header>
+
+<div class="about-hero">
+    <h1>About ShopEase 🛍️</h1>
+    <p>India's most trusted online shopping destination since 2020. We're on a mission to make quality products accessible to everyone.</p>
+</div>
+
+<div class="breadcrumb"><div class="breadcrumb-inner"><a href="/">Home</a> › About Us</div></div>
+
+<div class="about-section">
+    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800" alt="About ShopEase">
+    <div class="about-content">
+        <h2>Our Story</h2>
+        <p>ShopEase was founded in 2020 with a simple vision — to make online shopping accessible, affordable, and enjoyable for every Indian household.</p>
+        <p>Starting from a small warehouse in Lucknow, we've grown into one of India's fastest-growing e-commerce platforms, serving over 2 million customers across 500+ cities.</p>
+        <ul>
+            <li>Founded in 2020 in Lucknow, UP</li>
+            <li>50,000+ products across 7 categories</li>
+            <li>2 million+ happy customers</li>
+            <li>500+ cities covered</li>
+            <li>4.8/5 average customer rating</li>
+        </ul>
+        <a href="/shop" class="btn btn-primary">Start Shopping →</a>
+    </div>
+</div>
+
+<div class="about-section reverse">
+    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800" alt="Our Team">
+    <div class="about-content">
+        <h2>Our Mission & Values</h2>
+        <p>We believe everyone deserves access to quality products at fair prices. Our mission is to bridge the gap between great products and great people.</p>
+        <p>We are committed to sustainability, customer satisfaction, and building long-term relationships with both our customers and sellers.</p>
+        <ul>
+            <li>Customer-first approach always</li>
+            <li>Transparent pricing, no hidden charges</li>
+            <li>Eco-friendly packaging initiatives</li>
+            <li>Supporting local Indian sellers</li>
+            <li>Continuous innovation in shopping experience</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Milestones -->
+<section class="milestones">
+    <div class="milestones-inner">
+        <div class="section-title" style="color:#fff">
+            <h2 style="color:#fff">Our Achievements</h2>
+            <p style="color:rgba(255,255,255,.8)">Numbers that tell our story</p>
+        </div>
+        <div class="milestones-grid">
+            <div class="milestone"><h2>2M+</h2><p>Happy Customers</p></div>
+            <div class="milestone"><h2>50K+</h2><p>Products Listed</p></div>
+            <div class="milestone"><h2>500+</h2><p>Cities Covered</p></div>
+            <div class="milestone"><h2>5K+</h2><p>Seller Partners</p></div>
+            <div class="milestone"><h2>4.8★</h2><p>Average Rating</p></div>
+            <div class="milestone"><h2>99%</h2><p>On-time Delivery</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Team -->
+<section class="team">
+    <div class="section-title">
+        <h2>Meet Our Team</h2>
+        <p>The passionate people behind ShopEase</p>
+    </div>
+    <div class="team-grid">
+        <div class="team-card">
+            <img src="https://i.pravatar.cc/300?img=11" alt="CEO">
+            <h3>Arjun Sharma</h3>
+            <p>CEO & Co-Founder</p>
+        </div>
+        <div class="team-card">
+            <img src="https://i.pravatar.cc/300?img=5" alt="CTO">
+            <h3>Priya Verma</h3>
+            <p>CTO & Co-Founder</p>
+        </div>
+        <div class="team-card">
+            <img src="https://i.pravatar.cc/300?img=15" alt="CMO">
+            <h3>Rohit Gupta</h3>
+            <p>Chief Marketing Officer</p>
+        </div>
+        <div class="team-card">
+            <img src="https://i.pravatar.cc/300?img=9" alt="COO">
+            <h3>Sneha Patel</h3>
+            <p>Chief Operations Officer</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-top">
+        <div class="footer-col"><h4>ShopEase</h4><p>India's most trusted online shopping destination.</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><a href="/">Home</a><a href="/shop">Shop</a><a href="/about">About</a><a href="/contact">Contact</a></div>
+        <div class="footer-col"><h4>Contact</h4><p>📍 Lucknow, UP, India</p><p>📞 +91 9648388196</p><p>📧 bahadur11a89@gmail.com</p><p><a href="https://github.com/bahadur11a89" target="_blank" style="color:#fff;margin-right:8px"><i class="fab fa-github"></i> GitHub</a> <a href="https://www.linkedin.com/in/raj-bahadur11" target="_blank" style="color:#fff"><i class="fab fa-linkedin"></i> LinkedIn</a></p></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 ShopEase. All Rights Reserved.</p></div>
+</footer>
+
+<div id="toast" class="toast"></div>
+<script src="/js/app.js"></script>
+</body>
+</html>

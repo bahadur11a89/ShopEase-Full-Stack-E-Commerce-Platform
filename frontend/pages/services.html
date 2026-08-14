@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopEase | Services</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+.services-hero { background: linear-gradient(135deg, #0d6efd, #084298); color: #fff; padding: 80px 0; text-align: center; }
+.services-hero h1 { font-size: 48px; margin-bottom: 15px; }
+.services-hero p { font-size: 18px; opacity: .9; max-width: 600px; margin: auto; }
+.services-main { width: 90%; margin: 70px auto; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.service-card { background: #fff; border-radius: 16px; padding: 35px 30px; box-shadow: var(--shadow); transition: .3s; border-top: 4px solid transparent; }
+.service-card:hover { transform: translateY(-8px); border-top-color: var(--primary); }
+.service-card .icon { font-size: 52px; margin-bottom: 20px; }
+.service-card h2 { font-size: 22px; color: var(--primary); margin-bottom: 12px; }
+.service-card p { color: #666; line-height: 1.7; margin-bottom: 20px; }
+.service-card ul { list-style: none; }
+.service-card ul li { padding: 5px 0; color: #555; font-size: 14px; }
+.service-card ul li::before { content: '→ '; color: var(--primary); }
+.process { background: #fff; padding: 70px 0; margin-top: 60px; }
+.process-inner { width: 90%; margin: auto; }
+.process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 50px; position: relative; }
+.step { text-align: center; padding: 30px 20px; }
+.step-num { width: 60px; height: 60px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; margin: 0 auto 20px; }
+.step h3 { font-size: 17px; margin-bottom: 10px; }
+.step p { color: var(--secondary); font-size: 14px; }
+.pricing { width: 90%; margin: 70px auto; }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 50px; }
+.pricing-card { background: #fff; border-radius: 16px; padding: 35px 30px; box-shadow: var(--shadow); text-align: center; transition: .3s; }
+.pricing-card.popular { background: var(--primary); color: #fff; transform: scale(1.05); }
+.pricing-card .badge-popular { background: #ffc107; color: var(--dark); padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 15px; display: inline-block; }
+.pricing-card h3 { font-size: 22px; margin-bottom: 10px; }
+.pricing-card .price { font-size: 42px; font-weight: 800; margin: 15px 0; }
+.pricing-card .price span { font-size: 16px; font-weight: 400; }
+.pricing-card ul { list-style: none; margin: 20px 0; text-align: left; }
+.pricing-card ul li { padding: 8px 0; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,.05); }
+.pricing-card.popular ul li { border-bottom-color: rgba(255,255,255,.1); }
+.pricing-card ul li::before { content: '✓ '; color: var(--success); font-weight: 700; }
+.pricing-card.popular ul li::before { color: #ffc107; }
+@media(max-width:768px) { .services-hero h1 { font-size: 32px; } .pricing-card.popular { transform: scale(1); } }
+</style>
+</head>
+<body>
+<header>
+<nav>
+    <a href="/" class="logo">Shop<span>Ease</span></a>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services" class="active">Services</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/cart" class="cart-icon">🛒 Cart <span class="cart-count" id="cart-count" style="display:none">0</span></a></li>
+        <li id="nav-login"><a href="/login" class="nav-btn">Login</a></li>
+        <li id="nav-user" style="display:none"></li>
+    </ul>
+</nav>
+</header>
+
+<div class="services-hero">
+    <h1>Our Services ⚡</h1>
+    <p>We provide world-class services to make your shopping experience seamless, safe and enjoyable.</p>
+</div>
+
+<div class="breadcrumb"><div class="breadcrumb-inner"><a href="/">Home</a> › Services</div></div>
+
+<section class="services-main">
+    <div class="section-title">
+        <h2>What We Offer</h2>
+        <p>Premium services designed around your needs</p>
+    </div>
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="icon">🚚</div>
+            <h2>Fast Delivery</h2>
+            <p>Get your products delivered quickly and safely to your doorstep anywhere in India.</p>
+            <ul><li>Same-day delivery in select cities</li><li>Free delivery above ₹499</li><li>Real-time order tracking</li><li>Secure packaging guaranteed</li></ul>
+        </div>
+        <div class="service-card">
+            <div class="icon">💳</div>
+            <h2>Secure Payment</h2>
+            <p>Pay securely using multiple payment methods with 100% fraud protection.</p>
+            <ul><li>UPI, Cards, Net Banking</li><li>EMI options available</li><li>Buy Now Pay Later</li><li>256-bit SSL encryption</li></ul>
+        </div>
+        <div class="service-card">
+            <div class="icon">🔄</div>
+            <h2>Easy Returns</h2>
+            <p>Not satisfied? Enjoy hassle-free returns and quick refunds on eligible products.</p>
+            <ul><li>30-day return window</li><li>Free pickup from home</li><li>Instant refund processing</li><li>No questions asked policy</li></ul>
+        </div>
+        <div class="service-card">
+            <div class="icon">📞</div>
+            <h2>24/7 Support</h2>
+            <p>Our dedicated customer support team is available round the clock.</p>
+            <ul><li>Live chat support</li><li>Phone & email support</li><li>Multilingual assistance</li><li>Average response: 2 minutes</li></ul>
+        </div>
+        <div class="service-card">
+            <div class="icon">🏷️</div>
+            <h2>Best Deals</h2>
+            <p>Save more with daily offers, festival discounts, and exclusive member deals.</p>
+            <ul><li>Daily flash sales</li><li>Festival mega sales</li><li>Loyalty rewards program</li><li>Exclusive member discounts</li></ul>
+        </div>
+        <div class="service-card">
+            <div class="icon">⭐</div>
+            <h2>Quality Assurance</h2>
+            <p>Every product is quality-checked before it reaches your doorstep.</p>
+            <ul><li>100% authentic products</li><li>Seller verification process</li><li>Quality inspection team</li><li>Counterfeit protection</li></ul>
+        </div>
+    </div>
+</section>
+
+<!-- How it Works -->
+<section class="process">
+    <div class="process-inner">
+        <div class="section-title">
+            <h2>How It Works</h2>
+            <p>Shopping on ShopEase is simple and fast</p>
+        </div>
+        <div class="process-steps">
+            <div class="step"><div class="step-num">1</div><h3>Browse & Search</h3><p>Explore thousands of products across categories</p></div>
+            <div class="step"><div class="step-num">2</div><h3>Add to Cart</h3><p>Select your items and add them to your cart</p></div>
+            <div class="step"><div class="step-num">3</div><h3>Secure Checkout</h3><p>Pay securely using your preferred payment method</p></div>
+            <div class="step"><div class="step-num">4</div><h3>Fast Delivery</h3><p>Receive your order at your doorstep quickly</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing / Membership -->
+<section class="pricing">
+    <div class="section-title">
+        <h2>ShopEase Membership</h2>
+        <p>Choose the plan that works best for you</p>
+    </div>
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <h3>Basic</h3>
+            <div class="price">FREE<span>/month</span></div>
+            <ul>
+                <li>Standard delivery (5-7 days)</li>
+                <li>Basic customer support</li>
+                <li>Access to all products</li>
+                <li>Standard return policy</li>
+            </ul>
+            <a href="/register" class="btn btn-outline btn-block">Get Started</a>
+        </div>
+        <div class="pricing-card popular">
+            <div class="badge-popular">⭐ Most Popular</div>
+            <h3>ShopEase Plus</h3>
+            <div class="price">₹199<span>/month</span></div>
+            <ul>
+                <li>Free express delivery</li>
+                <li>Priority 24/7 support</li>
+                <li>Exclusive member deals</li>
+                <li>Extended 60-day returns</li>
+                <li>Early access to sales</li>
+            </ul>
+            <a href="/register" class="btn" style="background:#ffc107;color:#212529;font-weight:700;display:block;text-align:center;padding:12px">Join Plus →</a>
+        </div>
+        <div class="pricing-card">
+            <h3>Business</h3>
+            <div class="price">₹999<span>/month</span></div>
+            <ul>
+                <li>Bulk order discounts</li>
+                <li>Dedicated account manager</li>
+                <li>Custom invoicing & GST</li>
+                <li>API access for integration</li>
+                <li>Priority warehouse picking</li>
+            </ul>
+            <a href="/contact" class="btn btn-outline btn-block">Contact Sales</a>
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-col">
+                <h4>ShopEase</h4>
+                <p>India's most trusted online shopping destination. Quality products, best prices, fast delivery.</p>
+                <div class="social-links">
+                    <a href="https://github.com/bahadur11a89" target="_blank" title="GitHub" class="github"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/raj-bahadur11" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://youtube.com/@bahadur11a89" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="/">Home</a><a href="/shop">Shop</a><a href="/about">About Us</a>
+                <a href="/services">Services</a><a href="/contact">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <a href="/shop?category=Electronics">Electronics</a>
+                <a href="/shop?category=Fashion">Fashion</a>
+                <a href="/shop?category=Footwear">Footwear</a>
+                <a href="/shop?category=Accessories">Accessories</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p>📍 Lucknow, Uttar Pradesh, India</p>
+                <p>📞 +91 9648388196</p>
+                <p>📧 bahadur11a89@gmail.com</p>
+                <p>🕐 Mon-Sat: 9AM - 6PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 ShopEase. All Rights Reserved. | Made with ❤️ in India</p>
+        </div>
+    </footer>
+
+<div id="toast" class="toast"></div>
+<script src="/js/app.js"></script>
+</body>
+</html>

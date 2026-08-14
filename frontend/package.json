@@ -1,0 +1,17 @@
+{
+  "name": "shopease-frontend",
+  "version": "2.0.0",
+  "description": "ShopEase - E-commerce Frontend",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 5000 -c-1",
+    "dev": "live-server --port=5000"
+  },
+  "keywords": ["ecommerce", "shopease"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  }
+}
