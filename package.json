@@ -4,6 +4,7 @@
   "description": "ShopEase Full-Stack Application",
   "main": "backend/server.js",
   "scripts": {
+    "postinstall": "npm --prefix backend install",
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
     "seed:admin": "node backend/seedAdmin.js"
