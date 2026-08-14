@@ -219,20 +219,12 @@
             }
         }
 
-        @media(max-width:480px) {
-            .cart-item {
-                flex-wrap: wrap;
-                gap: 12px;
-            }
-
-            .cart-item img {
-                width: 70px;
-                height: 70px;
-            }
-
-            .qty-control {
-                flex-wrap: wrap;
-            }
+        @media print {
+            body * { visibility: hidden !important; }
+            #receipt-modal, #receipt-modal * { visibility: visible !important; }
+            #receipt-modal { position: fixed !important; inset: 0 !important; background: #fff !important; padding: 0 !important; z-index: 99999 !important; display: block !important; }
+            .modal-box { max-width: 100% !important; margin: 0 !important; box-shadow: none !important; padding: 20px !important; }
+            .no-print, .modal-close { display: none !important; }
         }
     </style>
 </head>
@@ -331,6 +323,72 @@
                     ✅ Place Order
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- Printable Order Receipt Modal -->
+    <div class="modal-overlay" id="receipt-modal">
+        <div class="modal-box" style="max-width:680px;padding:30px">
+            <button class="modal-close no-print" onclick="closeReceipt()">✕</button>
+            <div id="printable-receipt">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0d6efd;padding-bottom:15px;margin-bottom:20px">
+                    <div>
+                        <h1 style="font-size:26px;font-weight:800;color:#0d6efd;margin:0">Shop<span style="color:#ffc107">Ease</span></h1>
+                        <p style="font-size:12px;color:#666;margin:3px 0 0">India's Most Trusted Online Store | www.shopease.com</p>
+                    </div>
+                    <div style="text-align:right">
+                        <h3 style="margin:0;font-size:18px;color:#333;text-transform:uppercase">TAX INVOICE</h3>
+                        <p style="font-size:13px;color:#555;margin:4px 0 0" id="rcpt-order-id">#ORD-123456</p>
+                        <p style="font-size:12px;color:#888;margin:2px 0 0" id="rcpt-date">14 Aug 2026</p>
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;background:#f8f9fa;padding:15px;border-radius:8px;margin-bottom:20px;font-size:13px">
+                    <div>
+                        <strong style="color:#0d6efd;display:block;margin-bottom:4px">📍 Billed To & Shipping Address:</strong>
+                        <div id="rcpt-name" style="font-weight:600">Rahul Sharma</div>
+                        <div id="rcpt-address" style="color:#555">House 12, Main Street, Lucknow</div>
+                        <div id="rcpt-phone" style="color:#555">Phone: +91 9648388196</div>
+                    </div>
+                    <div>
+                        <strong style="color:#0d6efd;display:block;margin-bottom:4px">💳 Payment & Delivery Info:</strong>
+                        <div>Payment Method: <span id="rcpt-payment" style="font-weight:600">Cash on Delivery</span></div>
+                        <div>Payment Status: <span style="color:#2e7d32;font-weight:600">PAID / CONFIRMED</span></div>
+                        <div>Delivery Status: <span style="color:#0d6efd;font-weight:600">Processing Delivery</span></div>
+                    </div>
+                </div>
+
+                <table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px">
+                    <thead>
+                        <tr style="background:#e8f0fe;color:#0d6efd">
+                            <th style="padding:10px;text-align:left;border:1px solid #ddd">Item Description</th>
+                            <th style="padding:10px;text-align:center;border:1px solid #ddd;width:60px">Qty</th>
+                            <th style="padding:10px;text-align:right;border:1px solid #ddd;width:90px">Price</th>
+                            <th style="padding:10px;text-align:right;border:1px solid #ddd;width:100px">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rcpt-items-body">
+                    </tbody>
+                </table>
+
+                <div style="display:flex;justify-content:flex-end;margin-bottom:20px">
+                    <div style="width:260px;font-size:13px">
+                        <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Subtotal:</span><span id="rcpt-subtotal">₹0</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Shipping:</span><span id="rcpt-shipping">FREE</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:4px 0;color:#2e7d32"><span>Discount:</span><span id="rcpt-discount">-₹0</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #0d6efd;font-weight:800;font-size:16px;color:#0d6efd;margin-top:5px"><span>Grand Total:</span><span id="rcpt-total">₹0</span></div>
+                    </div>
+                </div>
+
+                <div style="text-align:center;font-size:12px;color:#888;border-top:1px dashed #ccc;padding-top:15px">
+                    Thank you for shopping with ShopEase! | Support: bahadur11a89@gmail.com | +91 9648388196
+                </div>
+            </div>
+
+            <div class="no-print" style="display:flex;gap:12px;margin-top:25px;justify-content:center;flex-wrap:wrap">
+                <button class="btn btn-primary" onclick="window.print()" style="font-size:15px;padding:12px 24px">🖨️ Print / Download PDF Receipt</button>
+                <button class="btn btn-outline" onclick="closeReceipt();window.location.href='/shop';" style="font-size:15px;padding:12px 24px">🛍️ Continue Shopping</button>
+            </div>
         </div>
     </div>
 
@@ -511,8 +569,8 @@
                     closeCheckout()
                     Cart.clear()
                     renderCart()
-                    showToast('🎉 Order placed successfully! Thank you for shopping.', 'success')
-                    setTimeout(() => window.location.href = '/', 2500)
+                    showToast('🎉 Order placed successfully! Invoice generated.', 'success')
+                    openReceipt(orderData, data)
                 } else {
                     if (data.message && (data.message.includes('no longer') || data.message.includes('previous session'))) {
                         document.getElementById('checkout-alert').innerHTML = `<div class="alert alert-danger" style="display:flex;flex-direction:column;gap:10px"><span>❌ ${data.message}</span><button type="button" class="btn btn-primary btn-sm" onclick="Cart.clear();closeCheckout();window.location.href='/shop';">🗑️ Clear Outdated Cart & Go to Shop</button></div>`
@@ -529,9 +587,57 @@
             }
         }
 
+        function openReceipt(orderReq, orderRes) {
+            const orderId = '#ORD-' + (orderRes._id ? orderRes._id.slice(-8).toUpperCase() : Math.floor(Math.random() * 899999 + 100000))
+            const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+
+            document.getElementById('rcpt-order-id').textContent = orderId
+            document.getElementById('rcpt-date').textContent = dateStr
+
+            const addr = orderReq.shippingAddress || {}
+            document.getElementById('rcpt-name').textContent = addr.name || 'Customer'
+            document.getElementById('rcpt-address').textContent = `${addr.address || ''}, ${addr.city || ''} - ${addr.pincode || ''}`
+            document.getElementById('rcpt-phone').textContent = 'Phone: ' + (addr.phone || 'N/A')
+            document.getElementById('rcpt-payment').textContent = orderReq.paymentMethod || 'COD'
+
+            const items = orderReq.items || []
+            let subtotal = 0
+            document.getElementById('rcpt-items-body').innerHTML = items.map(item => {
+                const itemTot = item.price * item.qty
+                subtotal += itemTot
+                return `
+                    <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:8px 10px;border:1px solid #ddd"><strong>${item.name}</strong></td>
+                        <td style="padding:8px 10px;text-align:center;border:1px solid #ddd">${item.qty}</td>
+                        <td style="padding:8px 10px;text-align:right;border:1px solid #ddd">₹${item.price.toLocaleString()}</td>
+                        <td style="padding:8px 10px;text-align:right;border:1px solid #ddd;font-weight:600">₹${itemTot.toLocaleString()}</td>
+                    </tr>`
+            }).join('')
+
+            const shipping = subtotal >= 499 ? 0 : 49
+            const discAmt = discountAmt || 0
+            const grandTotal = orderRes.totalPrice || (subtotal + shipping - discAmt)
+
+            document.getElementById('rcpt-subtotal').textContent = '₹' + subtotal.toLocaleString()
+            document.getElementById('rcpt-shipping').textContent = shipping === 0 ? 'FREE 🎉' : '₹' + shipping
+            document.getElementById('rcpt-discount').textContent = '-₹' + discAmt.toLocaleString()
+            document.getElementById('rcpt-total').textContent = '₹' + grandTotal.toLocaleString()
+
+            document.getElementById('receipt-modal').style.display = 'block'
+            document.body.style.overflow = 'hidden'
+        }
+
+        function closeReceipt() {
+            document.getElementById('receipt-modal').style.display = 'none'
+            document.body.style.overflow = ''
+        }
+
         // Close modal on overlay click
         document.getElementById('checkout-modal').addEventListener('click', function (e) {
             if (e.target === this) closeCheckout()
+        })
+        document.getElementById('receipt-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeReceipt()
         })
 
         renderCart()
