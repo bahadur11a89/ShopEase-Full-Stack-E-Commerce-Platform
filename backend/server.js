@@ -19,7 +19,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, '../frontend')))
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://ShopEase:ShopEase2026@shopease.or9kpld.mongodb.net/shopease?retryWrites=true&w=majority'
+mongoose.connect(MONGO_URI)
     .then(() => console.log('✅ MongoDB Connected'))
     .catch(err => console.log('⚠️  MongoDB not connected:', err.message))
 
