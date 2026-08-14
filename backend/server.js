@@ -18,13 +18,32 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, '../frontend')))
 
-// MongoDB Connection
+// MongoDB Connection Middleware for Serverless & Express
 const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://ShopEase:ShopEase2026@shopease.or9kpld.mongodb.net/shopease?retryWrites=true&w=majority'
-mongoose.connect(MONGO_URI)
+
+const connectDB = async (req, res, next) => {
+    if (mongoose.connection.readyState >= 1) {
+        return next()
+    }
+    try {
+        await mongoose.connect(MONGO_URI, {
+            serverSelectionTimeoutMS: 5000
+        })
+        console.log('✅ MongoDB Connected')
+        next()
+    } catch (err) {
+        console.error('❌ MongoDB Connection Error:', err.message)
+        return res.status(500).json({ message: 'Database connection failed: ' + err.message })
+    }
+}
+
+// Initial connection attempt
+mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 5000 })
     .then(() => console.log('✅ MongoDB Connected'))
-    .catch(err => console.log('⚠️  MongoDB not connected:', err.message))
+    .catch(err => console.log('⚠️  MongoDB initial connection error:', err.message))
 
 // ===== API Routes =====
+app.use('/api', connectDB)
 app.use('/api/auth', require('./routes/authRoutes'))
 app.use('/api/products', require('./routes/productRoutes'))
 app.use('/api/cart', require('./routes/cartRoutes'))
