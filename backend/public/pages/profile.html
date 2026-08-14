@@ -79,9 +79,7 @@
             font-size: 20px;
         }
 
-        .profile-content {}
-
-        .profile-card {
+        .profile-content .profile-card {
             background: #fff;
             border-radius: 12px;
             padding: 30px;
@@ -216,11 +214,35 @@
         }
 
         @media print {
-            body * { visibility: hidden !important; }
-            #receipt-modal, #receipt-modal * { visibility: visible !important; }
-            #receipt-modal { position: fixed !important; inset: 0 !important; background: #fff !important; padding: 0 !important; z-index: 99999 !important; display: block !important; }
-            .modal-box { max-width: 100% !important; margin: 0 !important; box-shadow: none !important; padding: 20px !important; }
-            .no-print, .modal-close { display: none !important; }
+            body * {
+                visibility: hidden !important;
+            }
+
+            #receipt-modal,
+            #receipt-modal * {
+                visibility: visible !important;
+            }
+
+            #receipt-modal {
+                position: fixed !important;
+                inset: 0 !important;
+                background: #fff !important;
+                padding: 0 !important;
+                z-index: 99999 !important;
+                display: block !important;
+            }
+
+            .modal-box {
+                max-width: 100% !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                padding: 20px !important;
+            }
+
+            .no-print,
+            .modal-close {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -336,10 +358,13 @@
         <div class="modal-box" style="max-width:680px;padding:30px">
             <button class="modal-close no-print" onclick="closeReceipt()">✕</button>
             <div id="printable-receipt">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0d6efd;padding-bottom:15px;margin-bottom:20px">
+                <div
+                    style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0d6efd;padding-bottom:15px;margin-bottom:20px">
                     <div>
-                        <h1 style="font-size:26px;font-weight:800;color:#0d6efd;margin:0">Shop<span style="color:#ffc107">Ease</span></h1>
-                        <p style="font-size:12px;color:#666;margin:3px 0 0">India's Most Trusted Online Store | www.shopease.com</p>
+                        <h1 style="font-size:26px;font-weight:800;color:#0d6efd;margin:0">Shop<span
+                                style="color:#ffc107">Ease</span></h1>
+                        <p style="font-size:12px;color:#666;margin:3px 0 0">India's Most Trusted Online Store |
+                            www.shopease.com</p>
                     </div>
                     <div style="text-align:right">
                         <h3 style="margin:0;font-size:18px;color:#333;text-transform:uppercase">TAX INVOICE</h3>
@@ -348,18 +373,23 @@
                     </div>
                 </div>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;background:#f8f9fa;padding:15px;border-radius:8px;margin-bottom:20px;font-size:13px">
+                <div
+                    style="display:grid;grid-template-columns:1fr 1fr;gap:20px;background:#f8f9fa;padding:15px;border-radius:8px;margin-bottom:20px;font-size:13px">
                     <div>
-                        <strong style="color:#0d6efd;display:block;margin-bottom:4px">📍 Billed To & Shipping Address:</strong>
+                        <strong style="color:#0d6efd;display:block;margin-bottom:4px">📍 Billed To & Shipping
+                            Address:</strong>
                         <div id="rcpt-name" style="font-weight:600">Rahul Sharma</div>
                         <div id="rcpt-address" style="color:#555">House 12, Main Street, Lucknow</div>
                         <div id="rcpt-phone" style="color:#555">Phone: +91 9648388196</div>
                     </div>
                     <div>
-                        <strong style="color:#0d6efd;display:block;margin-bottom:4px">💳 Payment & Delivery Info:</strong>
-                        <div>Payment Method: <span id="rcpt-payment" style="font-weight:600">Cash on Delivery</span></div>
+                        <strong style="color:#0d6efd;display:block;margin-bottom:4px">💳 Payment & Delivery
+                            Info:</strong>
+                        <div>Payment Method: <span id="rcpt-payment" style="font-weight:600">Cash on Delivery</span>
+                        </div>
                         <div>Payment Status: <span style="color:#2e7d32;font-weight:600">PAID / CONFIRMED</span></div>
-                        <div>Delivery Status: <span id="rcpt-status" style="color:#0d6efd;font-weight:600">Processing</span></div>
+                        <div>Delivery Status: <span id="rcpt-status"
+                                style="color:#0d6efd;font-weight:600">Processing</span></div>
                     </div>
                 </div>
 
@@ -378,9 +408,13 @@
 
                 <div style="display:flex;justify-content:flex-end;margin-bottom:20px">
                     <div style="width:260px;font-size:13px">
-                        <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Subtotal:</span><span id="rcpt-subtotal">₹0</span></div>
-                        <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Shipping:</span><span id="rcpt-shipping">FREE</span></div>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #0d6efd;font-weight:800;font-size:16px;color:#0d6efd;margin-top:5px"><span>Grand Total:</span><span id="rcpt-total">₹0</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:4px 0">
+                            <span>Subtotal:</span><span id="rcpt-subtotal">₹0</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:4px 0">
+                            <span>Shipping:</span><span id="rcpt-shipping">FREE</span></div>
+                        <div
+                            style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #0d6efd;font-weight:800;font-size:16px;color:#0d6efd;margin-top:5px">
+                            <span>Grand Total:</span><span id="rcpt-total">₹0</span></div>
                     </div>
                 </div>
 
@@ -390,8 +424,10 @@
             </div>
 
             <div class="no-print" style="display:flex;gap:12px;margin-top:25px;justify-content:center;flex-wrap:wrap">
-                <button class="btn btn-primary" onclick="window.print()" style="font-size:15px;padding:12px 24px">🖨️ Print / Download PDF Receipt</button>
-                <button class="btn btn-outline" onclick="closeReceipt()" style="font-size:15px;padding:12px 24px">✕ Close</button>
+                <button class="btn btn-primary" onclick="window.print()" style="font-size:15px;padding:12px 24px">🖨️
+                    Print / Download PDF Receipt</button>
+                <button class="btn btn-outline" onclick="closeReceipt()" style="font-size:15px;padding:12px 24px">✕
+                    Close</button>
             </div>
         </div>
     </div>
@@ -403,9 +439,12 @@
                 <h4>ShopEase</h4>
                 <p>India's most trusted online shopping destination. Quality products, best prices, fast delivery.</p>
                 <div class="social-links">
-                    <a href="https://github.com/bahadur11a89" target="_blank" title="GitHub" class="github"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/raj-bahadur11" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://youtube.com/@bahadur11a89" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://github.com/bahadur11a89" target="_blank" title="GitHub" class="github"><i
+                            class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/raj-bahadur11" target="_blank" title="LinkedIn"
+                        class="linkedin"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://youtube.com/@bahadur11a89" target="_blank" title="YouTube" class="youtube"><i
+                            class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-col">
