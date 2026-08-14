@@ -63,27 +63,33 @@ app.use((req, res) => {
 })
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-    console.log('')
-    console.log('🚀 ================================')
-    console.log(`🛍️  ShopEase Server STARTED!`)
-    console.log(`🌐 URL: http://localhost:${PORT}`)
-    console.log(`📦 Mode: ${process.env.NODE_ENV}`)
-    console.log('🚀 ================================')
-    console.log('')
-    console.log('📄 Pages:')
-    console.log(`   Home     → http://localhost:${PORT}/`)
-    console.log(`   Shop     → http://localhost:${PORT}/shop`)
-    console.log(`   Cart     → http://localhost:${PORT}/cart`)
-    console.log(`   Login    → http://localhost:${PORT}/login`)
-    console.log(`   Register → http://localhost:${PORT}/register`)
-    console.log(`   Admin    → http://localhost:${PORT}/admin`)
-    console.log('')
-    console.log('🔌 API Endpoints:')
-    console.log(`   Products → http://localhost:${PORT}/api/products`)
-    console.log(`   Auth     → http://localhost:${PORT}/api/auth`)
-    console.log(`   Orders   → http://localhost:${PORT}/api/orders`)
-    console.log(`   Users    → http://localhost:${PORT}/api/users`)
-    console.log(`   Seed DB  → http://localhost:${PORT}/api/products/seed`)
-    console.log('')
-})
+
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log('')
+        console.log('🚀 ================================')
+        console.log(`🛍️  ShopEase Server STARTED!`)
+        console.log(`🌐 URL: http://localhost:${PORT}`)
+        console.log(`📦 Mode: ${process.env.NODE_ENV}`)
+        console.log('🚀 ================================')
+        console.log('')
+        console.log('📄 Pages:')
+        console.log(`   Home     → http://localhost:${PORT}/`)
+        console.log(`   Shop     → http://localhost:${PORT}/shop`)
+        console.log(`   Cart     → http://localhost:${PORT}/cart`)
+        console.log(`   Login    → http://localhost:${PORT}/login`)
+        console.log(`   Register → http://localhost:${PORT}/register`)
+        console.log(`   Admin    → http://localhost:${PORT}/admin`)
+        console.log('')
+        console.log('🔌 API Endpoints:')
+        console.log(`   Products → http://localhost:${PORT}/api/products`)
+        console.log(`   Auth     → http://localhost:${PORT}/api/auth`)
+        console.log(`   Orders   → http://localhost:${PORT}/api/orders`)
+        console.log(`   Users    → http://localhost:${PORT}/api/users`)
+        console.log(`   Seed DB  → http://localhost:${PORT}/api/products/seed`)
+        console.log('')
+    })
+}
+
+module.exports = app
+
